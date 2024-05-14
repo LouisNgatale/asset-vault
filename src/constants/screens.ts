@@ -1,10 +1,12 @@
 const screens = {
-  Home: 'home',
-  Deals: 'deals',
-  MarketPlace: 'marketPlace',
-  BootstrapScreen: 'bootstrapScreen',
-  LoginScreen: 'loginScreen',
-  RegistrationScreen: 'registrationScreen',
+  Home: 'Home',
+  Deals: 'Deals',
+  MarketPlace: 'MarketPlace',
+  BootstrapScreen: 'BootstrapScreen',
+  LoginScreen: 'LoginScreen',
+  RegistrationScreen: 'RegistrationScreen',
+  ItemView: 'ItemView',
+  ListAsset: 'ListAsset',
 };
 
 export default screens;

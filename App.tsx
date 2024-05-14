@@ -4,15 +4,34 @@ import screens from './src/constants/screens.ts';
 import BootstrapScreen from './src/screens/bootstrap';
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import ItemView from './src/screens/item-view';
+import ListAsset from './src/screens/list-asset';
 
-const Stack = createNativeStackNavigator();
+const RootStack = createNativeStackNavigator();
 
 function App(): React.JSX.Element {
+  const globalRoutes = [
+    {
+      name: screens.ItemView,
+      component: ItemView,
+      options: {
+        title: 'Asset View',
+      },
+    },
+    {
+      name: screens.ListAsset,
+      component: ListAsset,
+      options: {
+        title: 'List Asset for Sale',
+      },
+    },
+  ];
+
   return (
     <SafeAreaProvider>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName={screens.BootstrapScreen}>
-          <Stack.Screen
+        <RootStack.Navigator initialRouteName={screens.BootstrapScreen}>
+          <RootStack.Screen
             options={{
               headerShown: false,
               animation: 'none',
@@ -20,7 +39,20 @@ function App(): React.JSX.Element {
             name={screens.BootstrapScreen}
             component={BootstrapScreen}
           />
-        </Stack.Navigator>
+          <RootStack.Group>
+            {globalRoutes.map((screen) => (
+              <RootStack.Screen
+                {...screen}
+                options={{
+                  ...screen.options,
+                  headerBackTitleVisible: false,
+                }}
+                name={screen.name}
+                component={screen.component}
+              />
+            ))}
+          </RootStack.Group>
+        </RootStack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>
   );

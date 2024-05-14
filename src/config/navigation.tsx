@@ -9,8 +9,6 @@ import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MarketPlace from '../screens/market-place';
 import Deals from '../screens/deals';
-import { SafeAreaView } from 'react-native';
-import tw from '../lib/tailwind.ts';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
