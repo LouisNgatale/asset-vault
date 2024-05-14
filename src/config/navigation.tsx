@@ -2,40 +2,64 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import screens from '../constants/screens.ts';
 import LoginScreen from '../screens/login';
 import RegisterScreen from '../screens/setup-account';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import HomeScreen from '../screens/home';
+import Feather from 'react-native-vector-icons/Feather';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import MarketPlace from '../screens/market-place';
+import Deals from '../screens/deals';
 
 const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
 export const BottomNavigation = () => {
-  const unauthenticatedScreens = [
+  const bottomTabs = [
     {
-      name: screens.LoginScreen,
-      component: LoginScreen,
+      name: screens.Home,
+      component: HomeScreen,
       options: {
-        title: 'Login',
         headerShown: false,
+        tabBarLabel: 'Home',
+        tabBarIcon: ({ color, size }: any) => (
+          <Feather name="home" color={color} size={size} />
+        ),
       },
     },
     {
-      name: screens.RegistrationScreen,
-      component: RegisterScreen,
+      name: screens.MarketPlace,
+      component: MarketPlace,
       options: {
-        title: 'Registration',
         headerShown: false,
+        tabBarLabel: 'Market Place',
+        tabBarIcon: ({ color, size }: any) => (
+          <Feather name="search" color={color} size={size} />
+        ),
+      },
+    },
+    {
+      name: screens.Deals,
+      component: Deals,
+      options: {
+        headerShown: false,
+        tabBarLabel: 'Deals',
+        tabBarIcon: ({ color, size }: any) => (
+          <AntDesign name="folderopen" color={color} size={size} />
+        ),
       },
     },
   ];
 
   return (
-    <Stack.Navigator initialRouteName={screens.LoginScreen}>
-      {unauthenticatedScreens.map((screen) => (
-        <Stack.Screen
+    <Tab.Navigator initialRouteName={screens.Home}>
+      {bottomTabs.map((screen) => (
+        <Tab.Screen
           {...screen}
           name={screen.name}
           component={screen.component}
           key={screen.name}
         />
       ))}
-    </Stack.Navigator>
+    </Tab.Navigator>
   );
 };
 
