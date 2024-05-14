@@ -3,6 +3,7 @@ import { TouchableOpacity, View } from 'react-native';
 import ThemeText from '../theme-text.tsx';
 import tw from '../../lib/tailwind.ts';
 import Entypo from 'react-native-vector-icons/Entypo';
+import { colors } from '../../constants/colors.ts';
 
 function ItemListCard({ onPress }: any) {
   return (
@@ -15,7 +16,7 @@ function ItemListCard({ onPress }: any) {
         <ThemeText type="subtext">Sqm</ThemeText>
       </View>
       <View style={tw`flex flex-row gap-3 items-center`}>
-        <Entypo name="location" size={20} />
+        <Entypo name="location" size={20} color={colors.orange} />
         <ThemeText style={tw`font-bold`}>Location</ThemeText>
       </View>
     </TouchableOpacity>

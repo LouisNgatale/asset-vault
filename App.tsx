@@ -6,6 +6,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import ItemView from './src/screens/item-view';
 import ListAsset from './src/screens/list-asset';
+import store, { persistor } from './src/state/store.ts';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
 
 const RootStack = createNativeStackNavigator();
 
@@ -29,31 +32,35 @@ function App(): React.JSX.Element {
 
   return (
     <SafeAreaProvider>
-      <NavigationContainer>
-        <RootStack.Navigator initialRouteName={screens.BootstrapScreen}>
-          <RootStack.Screen
-            options={{
-              headerShown: false,
-              animation: 'none',
-            }}
-            name={screens.BootstrapScreen}
-            component={BootstrapScreen}
-          />
-          <RootStack.Group>
-            {globalRoutes.map((screen) => (
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <NavigationContainer>
+            <RootStack.Navigator initialRouteName={screens.BootstrapScreen}>
               <RootStack.Screen
-                {...screen}
                 options={{
-                  ...screen.options,
-                  headerBackTitleVisible: false,
+                  headerShown: false,
+                  animation: 'none',
                 }}
-                name={screen.name}
-                component={screen.component}
+                name={screens.BootstrapScreen}
+                component={BootstrapScreen}
               />
-            ))}
-          </RootStack.Group>
-        </RootStack.Navigator>
-      </NavigationContainer>
+              <RootStack.Group>
+                {globalRoutes.map((screen) => (
+                  <RootStack.Screen
+                    {...screen}
+                    options={{
+                      ...screen.options,
+                      headerBackTitleVisible: false,
+                    }}
+                    name={screen.name}
+                    component={screen.component}
+                  />
+                ))}
+              </RootStack.Group>
+            </RootStack.Navigator>
+          </NavigationContainer>
+        </PersistGate>
+      </Provider>
     </SafeAreaProvider>
   );
 }

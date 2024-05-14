@@ -9,6 +9,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MarketPlace from '../screens/market-place';
 import Deals from '../screens/deals';
+import { colors } from '../constants/colors.ts';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -52,7 +53,11 @@ export const BottomNavigation = () => {
 
   return (
     <>
-      <Tab.Navigator initialRouteName={screens.Home}>
+      <Tab.Navigator
+        initialRouteName={screens.Home}
+        screenOptions={{
+          tabBarActiveTintColor: colors.orange,
+        }}>
         {bottomTabs.map((screen) => (
           <Tab.Screen
             {...screen}
