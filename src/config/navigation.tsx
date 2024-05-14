@@ -1,3 +1,4 @@
+import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import screens from '../constants/screens.ts';
 import LoginScreen from '../screens/login';
@@ -8,6 +9,8 @@ import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MarketPlace from '../screens/market-place';
 import Deals from '../screens/deals';
+import { SafeAreaView } from 'react-native';
+import tw from '../lib/tailwind.ts';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -19,7 +22,7 @@ export const BottomNavigation = () => {
       component: HomeScreen,
       options: {
         headerShown: false,
-        tabBarLabel: 'Home',
+        tabBarLabel: 'My Assets',
         tabBarIcon: ({ color, size }: any) => (
           <Feather name="home" color={color} size={size} />
         ),
@@ -50,16 +53,18 @@ export const BottomNavigation = () => {
   ];
 
   return (
-    <Tab.Navigator initialRouteName={screens.Home}>
-      {bottomTabs.map((screen) => (
-        <Tab.Screen
-          {...screen}
-          name={screen.name}
-          component={screen.component}
-          key={screen.name}
-        />
-      ))}
-    </Tab.Navigator>
+    <>
+      <Tab.Navigator initialRouteName={screens.Home}>
+        {bottomTabs.map((screen) => (
+          <Tab.Screen
+            {...screen}
+            name={screen.name}
+            component={screen.component}
+            key={screen.name}
+          />
+        ))}
+      </Tab.Navigator>
+    </>
   );
 };
 

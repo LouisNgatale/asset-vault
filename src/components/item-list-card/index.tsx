@@ -1,0 +1,23 @@
+import React from 'react';
+import { View } from 'react-native';
+import ThemeText from '../theme-text.tsx';
+import tw from '../../lib/tailwind.ts';
+import Entypo from 'react-native-vector-icons/Entypo';
+
+function ItemListCard() {
+  return (
+    <View style={tw`w-full bg-white min-h-20 mb-3 rounded-md p-2 shadow-md`}>
+      <View style={tw`min-h-20 bg-gray-100 mb-2 rounded-md`} />
+      <View style={tw`flex flex-row justify-between mb-3`}>
+        <ThemeText>Item</ThemeText>
+        <ThemeText type="subtext">Sqm</ThemeText>
+      </View>
+      <View style={tw`flex flex-row gap-3 items-center`}>
+        <Entypo name="location" size={20} />
+        <ThemeText style={tw`font-bold`}>Location</ThemeText>
+      </View>
+    </View>
+  );
+}
+
+export default ItemListCard;
