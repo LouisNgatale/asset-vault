@@ -4,12 +4,15 @@ import tw from '../../lib/tailwind.ts';
 import ItemListCard from '../../components/item-list-card';
 import ThemeText from '../../components/theme-text.tsx';
 import screens from '../../constants/screens.ts';
+import { UserType } from '../../constants';
 
 export default function HomeScreen({ navigation }: any) {
   const items = [1, 2, 3, 4, 5, 6, 7];
 
   const handleNavigate = () => {
-    navigation.navigate(screens.ItemView);
+    navigation.navigate(screens.ItemView, {
+      userType: UserType.OWNER,
+    });
   };
 
   const renderItemList = () => {
