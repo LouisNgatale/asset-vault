@@ -1,11 +1,15 @@
-import React from 'react';
-import { Text, View, SafeAreaView } from 'react-native';
+import React, { PropsWithChildren } from 'react';
+import { View } from 'react-native';
 import tw from '../../lib/tailwind.ts';
 import ThemeText from '../../components/theme-text.tsx';
 import ThemeButton from '../../components/theme-button.tsx';
 import ThemeInput from '../../components/input';
+import screens from '../../constants/screens.ts';
 
-export default function LoginScreen() {
+type Props = {
+  navigation: any;
+};
+export default function LoginScreen({ navigation }: PropsWithChildren<Props>) {
   return (
     <View style={tw`flex flex-1 items-center justify-center p-4`}>
       <ThemeText style={tw`mb-2 text-xl font-semibold`}>
@@ -28,7 +32,7 @@ export default function LoginScreen() {
         }
         placeholder={'Enter your phone number'}
         errors={[]}
-        containerStyle={tw`py-2`}
+        containerStyle={tw`py-[5px]`}
         label="Phone number:"
         keyboardType="numeric"
         maxLength={9}
@@ -45,7 +49,12 @@ export default function LoginScreen() {
         maxLength={20}
       />
 
-      <ThemeButton onPress={() => {}} label={'Done'} />
+      <ThemeButton
+        onPress={() => {
+          navigation.navigate(screens.RegistrationScreen);
+        }}
+        label={'Done'}
+      />
     </View>
   );
 }

@@ -113,13 +113,11 @@ export default function ThemeInput({
           inputContainerStyle,
         ]}
         inputStyle={[
-          errorText || errorMessage
-            ? tw`text-[14px] min-h-[24px] px-[7px] text-red-400 mb-0 pb-0`
-            : tw`text-black text-[14px] min-h-[24px] px-[7px] w-full mb-0 pb-0`,
+          tw`text-black text-[14px] min-h-[24px] px-[7px] w-full mb-0 py-0`,
           inputStyle,
         ]}
         containerStyle={[
-          tw`px-2 py-3 mb-0 border-[1.4px] border-primary-100 bg-white rounded-sm`,
+          tw`px-2 py-3 mb-0 border-[1.4px] border-primary-100 bg-white rounded-md`,
           containerStyle,
         ]}
         style={style}
