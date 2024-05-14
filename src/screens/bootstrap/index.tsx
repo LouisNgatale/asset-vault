@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Emblem from '../../assets/svg/emblem';
 import { View } from 'react-native';
 import tw from '../../lib/tailwind.ts';
@@ -10,6 +10,22 @@ import {
 export default function BootstrapScreen(): React.JSX.Element {
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const setupApp = async () => {
+    try {
+      console.log('Setting app');
+      setIsAuthenticated(true);
+      setIsLoading(false);
+    } catch (e) {
+      console.error(e);
+
+      // TODO: Show error message
+    }
+  };
+
+  useEffect(() => {
+    void setupApp();
+  }, []);
 
   if (isLoading) {
     return (

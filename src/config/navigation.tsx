@@ -12,6 +12,7 @@ export const BottomNavigation = () => {
       component: LoginScreen,
       options: {
         title: 'Login',
+        headerShown: false,
       },
     },
     {
@@ -19,6 +20,7 @@ export const BottomNavigation = () => {
       component: RegisterScreen,
       options: {
         title: 'Registration',
+        headerShown: false,
       },
     },
   ];
