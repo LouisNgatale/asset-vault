@@ -14,7 +14,7 @@ export default function BootstrapScreen(): React.JSX.Element {
   const setupApp = async () => {
     try {
       console.log('Setting app');
-      setIsAuthenticated(true);
+      setIsAuthenticated(false);
       setIsLoading(false);
     } catch (e) {
       console.error(e);

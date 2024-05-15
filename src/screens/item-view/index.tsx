@@ -6,6 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
   View,
+  Image,
 } from 'react-native';
 import tw from '../../lib/tailwind.ts';
 import Carousel from 'react-native-reanimated-carousel';
@@ -16,6 +17,7 @@ import screens from '../../constants/screens.ts';
 import { UserType } from '../../constants';
 import SimilarItemCard from '../../components/similar-items-card.tsx';
 import Feather from 'react-native-vector-icons/Feather';
+import MapView from 'react-native-maps';
 
 export default function ItemView({ navigation, route }: any) {
   const userType = route.params.userType as UserType;
@@ -27,29 +29,34 @@ export default function ItemView({ navigation, route }: any) {
   };
 
   return (
-    <SafeAreaView style={tw`flex-1`}>
+    <SafeAreaView style={tw`flex-1 bg-white`}>
       <ScrollView>
         <Carousel
           loop
           width={width}
           height={300}
-          style={tw`mb-2 bg-gray-100`}
-          data={[...new Array(6).keys()]}
+          style={tw`mb-2`}
+          data={[
+            'https://plus.unsplash.com/premium_photo-1684348962187-988fc3d7f024?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+            'https://plus.unsplash.com/premium_photo-1684348962314-64fa628992f0?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+            'https://images.unsplash.com/photo-1498409505433-aff66f7ba9e6?q=80&w=1330&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+          ]}
+          autoPlay={true}
+          autoPlayInterval={4000}
           scrollAnimationDuration={1000}
-          renderItem={({ index }) => (
-            <View
+          renderItem={({ item }) => (
+            <Image
+              source={{
+                uri: item,
+              }}
               style={{
                 height: 300,
-                borderWidth: 1,
                 justifyContent: 'center',
-              }}>
-              <ThemeText style={{ textAlign: 'center', fontSize: 30 }}>
-                {index}
-              </ThemeText>
-            </View>
+              }}
+            />
           )}
         />
-        <View style={tw`p-4 bg-gray-100`}>
+        <View style={tw`p-4`}>
           <ThemeText style={tw`mb-2`} type="subtext">
             Asset Type
           </ThemeText>
@@ -83,7 +90,17 @@ export default function ItemView({ navigation, route }: any) {
           />
 
           {/* View */}
-          <View style={tw`w-full h-70 bg-gray-200 mt-4 mb-4`} />
+          <View style={tw`w-full h-70 bg-gray-200 mt-4 mb-4`}>
+            <MapView
+              style={tw`flex-1`}
+              initialRegion={{
+                latitude: 37.78825,
+                longitude: -122.4324,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421,
+              }}
+            />
+          </View>
 
           <ThemeText>Near by</ThemeText>
 

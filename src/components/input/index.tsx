@@ -3,6 +3,7 @@ import React, { MutableRefObject, ReactElement } from 'react';
 import tw from '../../lib/tailwind.ts';
 import { StyleProp, TextStyle, View, ViewStyle } from 'react-native';
 import ThemeText from '../theme-text.tsx';
+import { Control, Controller } from 'react-hook-form';
 
 type InputProps = {
   placeholder?: string;
@@ -45,7 +46,7 @@ type InputProps = {
   name: string;
   defaultValue?: string | undefined;
   rules: any;
-  // control: Control<Record<string, any>>;
+  control: Control<any>;
   errors: any;
   label?: string;
 };
@@ -64,7 +65,8 @@ export default function ThemeInput({
   placeholder,
   leftIcon,
   rightIcon,
-  value,
+  defaultValue,
+  control,
   disabled,
   autoCapitalize,
   secureTextEntry,
@@ -78,6 +80,8 @@ export default function ThemeInput({
   onSubmitEditing,
   containerStyle,
   multiline,
+  name,
+  rules,
   next,
   inputStyle,
 }: InputProps) {
@@ -93,47 +97,56 @@ export default function ThemeInput({
           {label}
         </ThemeText>
       )}
-      <Input
-        // onBlur={onBlur}
-        onChangeText={(text) => {
-          // onChange(text);
-          if (onChangeText) {
-            onChangeText(text);
-          }
-        }}
-        multiline={multiline}
-        value={value}
-        placeholder={placeholder}
-        leftIcon={leftIcon}
-        rightIcon={rightIcon}
-        leftIconContainerStyle={tw`m-0`}
-        errorStyle={[tw`hidden`]}
-        inputContainerStyle={[
-          tw` rounded-[6px] border-b-0`,
-          inputContainerStyle,
-        ]}
-        inputStyle={[
-          tw`text-black text-[14px] min-h-[24px] px-[7px] w-full mb-0 py-0`,
-          inputStyle,
-        ]}
-        containerStyle={[
-          tw`px-2 py-3 mb-0 border-[1.4px] border-primary-100 bg-white rounded-md`,
-          containerStyle,
-        ]}
-        style={style}
-        errorMessage={errorText || errorMessage}
-        ref={refCallback}
-        returnKeyType={returnKeyType}
-        onSubmitEditing={onHandleSubmitEditing}
-        disabled={disabled}
-        autoCorrect={false}
-        spellCheck={false}
-        autoCapitalize={autoCapitalize}
-        secureTextEntry={secureTextEntry}
-        placeholderTextColor={placeholderTextColor}
-        keyboardType={keyboardType}
-        maxLength={maxLength}
+      <Controller
+        control={control}
+        name={name || ''}
+        rules={rules}
+        defaultValue={defaultValue}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <Input
+            onBlur={onBlur}
+            onChangeText={(text) => {
+              onChange(text);
+              if (onChangeText) {
+                onChangeText(text);
+              }
+            }}
+            multiline={multiline}
+            value={value}
+            placeholder={placeholder}
+            leftIcon={leftIcon}
+            rightIcon={rightIcon}
+            leftIconContainerStyle={tw`m-0`}
+            errorStyle={[tw`hidden`]}
+            inputContainerStyle={[
+              tw` rounded-[6px] border-b-0`,
+              inputContainerStyle,
+            ]}
+            inputStyle={[
+              tw`text-black text-[14px] min-h-[24px] px-[7px] w-full mb-0 py-0`,
+              inputStyle,
+            ]}
+            containerStyle={[
+              tw`px-2 py-3 mb-0 border-[1.4px] border-primary-100 bg-white rounded-md`,
+              containerStyle,
+            ]}
+            style={style}
+            errorMessage={errorText || errorMessage}
+            ref={refCallback}
+            returnKeyType={returnKeyType}
+            onSubmitEditing={onHandleSubmitEditing}
+            disabled={disabled}
+            autoCorrect={false}
+            spellCheck={false}
+            autoCapitalize={autoCapitalize}
+            secureTextEntry={secureTextEntry}
+            placeholderTextColor={placeholderTextColor}
+            keyboardType={keyboardType}
+            maxLength={maxLength}
+          />
+        )}
       />
+
       {errorMessage && (
         <ThemeText type="error" style={tw`mt-1`}>
           {errorMessage}
