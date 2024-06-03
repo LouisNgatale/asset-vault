@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { SafeAreaView, View } from 'react-native';
 import ProgressSteps, {
   Content,
@@ -13,10 +13,6 @@ import TitleIssuance from '../../components/order-steps/title-issuance.tsx';
 
 export default function ActiveDeal() {
   const [step, setStep] = useState(0);
-
-  useEffect(() => {
-    console.log({ step });
-  }, [step]);
 
   const handleNextStep = () => {
     setStep((currStep) => {
@@ -53,7 +49,10 @@ export default function ActiveDeal() {
       title: <Title>Negotiation</Title>,
       content: (
         <Content>
-          <Negotiation />
+          <Negotiation
+            nextStep={handleNextStep}
+            previousStep={handlePreviousStep}
+          />
         </Content>
       ),
     },
@@ -62,7 +61,10 @@ export default function ActiveDeal() {
       title: <Title>Contract Drafting</Title>,
       content: (
         <Content>
-          <ContractDrafting />
+          <ContractDrafting
+            nextStep={handleNextStep}
+            previousStep={handlePreviousStep}
+          />
         </Content>
       ),
     },
@@ -71,16 +73,22 @@ export default function ActiveDeal() {
       title: <Title>Signature</Title>,
       content: (
         <Content>
-          <Signature />
+          <Signature
+            nextStep={handleNextStep}
+            previousStep={handlePreviousStep}
+          />
         </Content>
       ),
     },
     {
       id: 4,
-      title: <Title>Title Issuance</Title>,
+      title: <Title>Payments</Title>,
       content: (
         <Content>
-          <TitleIssuance />
+          <TitleIssuance
+            nextStep={handleNextStep}
+            previousStep={handlePreviousStep}
+          />
         </Content>
       ),
     },

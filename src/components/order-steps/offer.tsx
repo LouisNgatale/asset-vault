@@ -15,12 +15,11 @@ const formFieldValues = {
 
 export default function Offer({
   nextStep,
-  previousStep,
 }: {
   nextStep: () => void;
   previousStep: () => void;
 }) {
-  const { control, handleSubmit } = useForm<LoginDto>({
+  const { control } = useForm<LoginDto>({
     defaultValues: {
       phoneNumber: 0,
       NIDA: 0,
@@ -66,7 +65,6 @@ export default function Offer({
 
       <ThemeButton
         onPress={() => {
-          console.log(nextStep);
           nextStep();
         }}
         label={'Submit Offer'}
