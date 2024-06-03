@@ -3,6 +3,8 @@ import { GiftedChat, IMessage } from 'react-native-gifted-chat';
 import { View } from 'react-native';
 import tw from '../../lib/tailwind.ts';
 import ThemeButton from '../theme-button.tsx';
+import ThemeText from '../theme-text.tsx';
+import DatePicker from 'react-native-date-picker';
 
 export default function Negotiation({
   nextStep,
@@ -11,6 +13,9 @@ export default function Negotiation({
   previousStep: () => void;
 }) {
   const [messages, setMessages] = useState<IMessage[]>([]);
+
+  const [date, setDate] = useState(new Date());
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     setMessages([
@@ -46,6 +51,28 @@ export default function Negotiation({
   return (
     <View style={tw`flex-1 h-full`}>
       <ThemeButton label="Close Negotiations" onPress={() => nextStep()} />
+
+      <ThemeText style={tw`font-semibold mb-3`}>
+        Schedule for Negotiation appointment
+      </ThemeText>
+      <ThemeButton label="Pick Date" onPress={() => setOpen(true)} />
+      <DatePicker
+        modal
+        open={open}
+        date={date}
+        onConfirm={(date) => {
+          setOpen(false);
+          setDate(date);
+        }}
+        onCancel={() => {
+          setOpen(false);
+        }}
+      />
+
+      <ThemeText>
+        Schedule date for physical or virtual meeting for negotiation of pricing
+        and sale
+      </ThemeText>
       <GiftedChat
         messages={messages}
         onSend={(messages) => onSend(messages)}
