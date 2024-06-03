@@ -15,7 +15,7 @@ import { storage } from '../../state/storage';
 export const retries = 5;
 const { TOKEN_API_ID } = Config;
 
-export class ResponseError extends Error {
+export class ResponseError<T> extends Error {
   public message: string = '';
 
   public code?: string;
@@ -28,7 +28,7 @@ export class ResponseError extends Error {
 
   public error?: IError | IResponseValidationInnerError[];
 
-  public data?: any;
+  public data?: T;
 
   constructor(response: IResponseError) {
     super(response?.message || response?.errorMessage);

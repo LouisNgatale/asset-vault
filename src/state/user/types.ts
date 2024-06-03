@@ -5,18 +5,31 @@ export type LoginDto = {
   NIDA: number;
 };
 
-export type ResponseError = {
+export type RegistrationDto = {
+  NIDA: string;
+  phoneNumber: string;
+  email: string;
+  fullName: string;
+};
+
+export type AppResponseError = {
   success: boolean;
   code: ResponseCode;
   message?: string;
 };
 
-export type LoginResponse =
-  | {
-      success: boolean;
-      data: {
-        user: any;
-        accessToken: string;
-      };
-    }
-  | ResponseError;
+export type LoginResponse = {
+  success: boolean;
+  data: {
+    user: any;
+    accessToken: string;
+  };
+};
+
+export type RegisterResponse = {
+  success: boolean;
+  data: {
+    user: any;
+    accessToken: string;
+  };
+};

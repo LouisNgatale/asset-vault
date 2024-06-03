@@ -78,6 +78,7 @@ export const AuthenticationScreens = () => {
       component: LoginScreen,
       options: {
         title: 'Login',
+        headerShown: false,
       },
     },
     {
@@ -85,6 +86,7 @@ export const AuthenticationScreens = () => {
       component: RegisterScreen,
       options: {
         title: 'Registration',
+        headerShown: false,
       },
     },
   ];

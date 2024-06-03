@@ -40,8 +40,8 @@ export default function LoginScreen({ navigation }: PropsWithChildren<Props>) {
         NIDA: values.NIDA,
         phoneNumber: values.phoneNumber,
       };
-      const response = await dispatch(login(payload)).unwrap();
-      console.log({ response });
+      await dispatch(login(payload)).unwrap();
+      // const body = response as LoginResponse;
     } catch (e) {
       console.error(e);
       const error = e as ResponseError;
@@ -63,7 +63,7 @@ export default function LoginScreen({ navigation }: PropsWithChildren<Props>) {
 
   return (
     <KeyboardAwareScrollView
-      contentContainerStyle={tw`flex flex-1 items-center justify-center p-4`}>
+      contentContainerStyle={tw`flex flex-1 items-center justify-center p-4 bg-white`}>
       <ThemeText style={tw`mb-2 text-xl font-semibold`}>
         Login to Ardhi Yangu
       </ThemeText>
@@ -110,6 +110,12 @@ export default function LoginScreen({ navigation }: PropsWithChildren<Props>) {
         loading={loading}
         onPress={handleSubmit(onSubmit)}
         label={'Done'}
+      />
+
+      <ThemeButton
+        onPress={() => navigation.navigate(screens.RegistrationScreen)}
+        label={"Don't have account? Create one here!"}
+        type="clear"
       />
     </KeyboardAwareScrollView>
   );

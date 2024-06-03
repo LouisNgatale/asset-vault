@@ -11,7 +11,7 @@ import ThemeText from './theme-text.tsx';
 type Props = {
   label?: string;
   style?: ViewStyle;
-  type?: 'default' | 'outlined' | 'outlined-round';
+  type?: 'default' | 'outlined' | 'outlined-round' | 'clear';
   labelStyle?: TextStyle;
   icon?: any;
   loading?: boolean;
@@ -28,6 +28,19 @@ export default function ThemeButton({
   loading,
 }: Props) {
   let defaultStyle = tw`w-full text-center flex flex-row items-center justify-center px-6 min-h-[45px] rounded-sm`;
+
+  if (type === 'clear') {
+    return (
+      <TouchableOpacity onPress={onPress} style={[defaultStyle, style]}>
+        {icon}
+        {loading && (
+          <ActivityIndicator size="small" color="#0000ff" style={tw`mr-3`} />
+        )}
+
+        <ThemeText style={labelStyle}>{label}</ThemeText>
+      </TouchableOpacity>
+    );
+  }
 
   if (type === 'outlined') {
     return (

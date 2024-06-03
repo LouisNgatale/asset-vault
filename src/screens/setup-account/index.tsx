@@ -1,20 +1,75 @@
 import tw from '../../lib/tailwind.ts';
-import { View } from 'react-native';
+import { Alert } from 'react-native';
 import ThemeText from '../../components/theme-text.tsx';
 import ThemeInput from '../../components/input';
 import ThemeButton from '../../components/theme-button.tsx';
 import screens from '../../constants/screens.ts';
 import React from 'react';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { useForm } from 'react-hook-form';
+import { AppResponseError, RegistrationDto } from '../../state/user/types.ts';
+import { register } from '../../state/user/actions.ts';
+import { ResponseCode } from '../../constants/request.ts';
+import { useAppDispatch } from '../../lib/hooks/useRedux.ts';
 
 const formFieldNames = {
   fullName: 'fullName',
-  occupation: 'occupation',
-  emailAddress: 'emailAddress',
+  emailAddress: 'email',
+  NIDA: 'NIDA',
+  phoneNumber: 'phoneNumber',
 };
 
 export default function RegisterScreen({ navigation }: { navigation: any }) {
+  const dispatch = useAppDispatch();
+
+  const { control, handleSubmit } = useForm<RegistrationDto>({
+    defaultValues: {
+      phoneNumber: '',
+      NIDA: '',
+      fullName: '',
+      email: '',
+    },
+  });
+
+  const onSubmit = async (values: RegistrationDto) => {
+    try {
+      const payload: RegistrationDto = {
+        NIDA: values.NIDA,
+        phoneNumber: values.phoneNumber,
+        fullName: values.fullName,
+        email: values.email,
+      };
+      console.log({ payload });
+
+      const response = await dispatch(register(payload)).unwrap();
+      console.log({ response });
+
+      Alert.alert(
+        'Account Created 🎉',
+        'Your account was created successfully. Please proceed to logging in.',
+      );
+    } catch (e) {
+      console.error(e);
+      const error = e as AppResponseError;
+      if (error.code === ResponseCode.USER_ALREADY_EXISTS) {
+        Alert.alert(
+          'Account already exists',
+          'It seems like you the account already exists. Please proceed to logging in.',
+        );
+
+        return navigation.navigate(screens.RegistrationScreen);
+      }
+
+      return Alert.alert(
+        'Generic error',
+        "It seems like there's a generic error. Please contact support and try again later",
+      );
+    }
+  };
+
   return (
-    <View style={tw`flex flex-1 items-center justify-center p-4`}>
+    <KeyboardAwareScrollView
+      contentContainerStyle={tw`flex flex-1 items-center justify-center p-4 bg-white`}>
       <ThemeText style={tw`mb-2 text-xl font-semibold`}>
         Finish setting up your account
       </ThemeText>
@@ -29,8 +84,9 @@ export default function RegisterScreen({ navigation }: { navigation: any }) {
         rules={{}}
         placeholder={'Enter your full name'}
         errors={[]}
+        control={control}
         label="Full name:"
-        maxLength={9}
+        returnKeyType="next"
       />
 
       {/* Email */}
@@ -40,25 +96,50 @@ export default function RegisterScreen({ navigation }: { navigation: any }) {
         placeholder={'Email'}
         errors={[]}
         label="Email:"
-        maxLength={20}
+        control={control}
+        returnKeyType="next"
       />
 
-      {/* Occupation */}
+      {/* Phone Number */}
       <ThemeInput
-        name={formFieldNames.occupation}
+        name={formFieldNames.phoneNumber}
         rules={{}}
-        placeholder={'Occupation'}
+        leftIcon={
+          <>
+            <ThemeText type="label" style={tw`p-0 m-0`}>
+              +255
+            </ThemeText>
+          </>
+        }
+        placeholder={'Enter your phone number'}
         errors={[]}
-        label="Occupation:"
-        maxLength={20}
+        control={control}
+        containerStyle={tw`py-[5px]`}
+        label="Phone number:"
+        keyboardType="numeric"
+        maxLength={9}
+        returnKeyType="next"
       />
 
-      <ThemeButton
-        onPress={() => {
-          navigation.navigate(screens.Home);
-        }}
-        label={'Done'}
+      {/* NIDA */}
+      <ThemeInput
+        name={formFieldNames.NIDA}
+        rules={{}}
+        placeholder={'Enter your NIDA'}
+        errors={[]}
+        label="NIDA:"
+        control={control}
+        keyboardType="numeric"
+        maxLength={20}
+        returnKeyType="done"
       />
-    </View>
+
+      <ThemeButton onPress={handleSubmit(onSubmit)} label={'Done'} />
+      <ThemeButton
+        onPress={() => navigation.navigate(screens.LoginScreen)}
+        label={'Already have account? Login'}
+        type="clear"
+      />
+    </KeyboardAwareScrollView>
   );
 }
