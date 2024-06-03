@@ -9,6 +9,7 @@ import ListAsset from './src/screens/list-asset';
 import store, { persistor } from './src/state/store.ts';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
+import ActiveDeal from './src/screens/deals/active-deal.tsx';
 
 const RootStack = createNativeStackNavigator();
 
@@ -26,6 +27,13 @@ function App(): React.JSX.Element {
       component: ListAsset,
       options: {
         title: 'List Asset for Sale',
+      },
+    },
+    {
+      name: screens.ActiveDeal,
+      component: ActiveDeal,
+      options: {
+        title: 'Active Deal',
       },
     },
   ];

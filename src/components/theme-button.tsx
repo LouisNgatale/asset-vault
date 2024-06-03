@@ -27,7 +27,7 @@ export default function ThemeButton({
   onPress,
   loading,
 }: Props) {
-  let defaultStyle = tw`w-full text-center flex flex-row items-center justify-center px-6 min-h-[45px] rounded-sm`;
+  let defaultStyle = tw`w-full text-center flex flex-row items-center justify-center px-6 min-h-[45px] rounded-md`;
 
   if (type === 'clear') {
     return (

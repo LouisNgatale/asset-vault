@@ -1489,6 +1489,11 @@
     "@types/yargs" "^17.0.8"
     chalk "^4.0.0"
 
+"@joaosousa/react-native-progress-steps@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@joaosousa/react-native-progress-steps/-/react-native-progress-steps-0.4.0.tgz#9878588f7f9c4f49917a056346d897038c769a39"
+  integrity sha512-+78GHoWp9tni+4w3ok8G4peHRBZmFTRLm+PTgDHf6sH7oS+FJiodG07t/Huz/udk0BMxBlSAp0mWu6fTZGlRtg==
+
 "@jridgewell/gen-mapping@^0.3.2", "@jridgewell/gen-mapping@^0.3.5":
   version "0.3.5"
   resolved "https://registry.yarnpkg.com/@jridgewell/gen-mapping/-/gen-mapping-0.3.5.tgz#dcce6aff74bdf6dad1a95802b69b04a2fcb1fb36"
@@ -1716,6 +1721,11 @@
     graceful-fs "^4.1.3"
     prompts "^2.4.2"
     semver "^7.5.2"
+
+"@react-native-picker/picker@^2.7.6":
+  version "2.7.6"
+  resolved "https://registry.yarnpkg.com/@react-native-picker/picker/-/picker-2.7.6.tgz#fda996742f6878660277b995e878711641e778f4"
+  integrity sha512-Cs3PxRmE2vu6TofM9vt9TV8ZYFOtEPSupNxwoorH9lpkKM9HGG8QwK2i29KOEoODpUbtudKHUTtqhMZSuX9pgA==
 
 "@react-native/assets-registry@0.74.83":
   version "0.74.83"
@@ -5207,6 +5217,11 @@ lodash.isequal@^4.5.0:
   resolved "https://registry.yarnpkg.com/lodash.isequal/-/lodash.isequal-4.5.0.tgz#415c4478f2bcc30120c22ce10ed3226f7d3e18e0"
   integrity sha512-pDo3lu8Jhfjqls6GkMgpahsF9kCyayhgykjyLMNFTKWrpVdAQtYyB4muAMWozBB4ig/dtWAmsMxLEI8wuz+DYQ==
 
+lodash.isobject@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/lodash.isobject/-/lodash.isobject-3.0.2.tgz#3c8fb8d5b5bf4bf90ae06e14f2a530a4ed935e1d"
+  integrity sha512-3/Qptq2vr7WeJbB4KHUSKlq8Pl7ASXi3UG6CMbBm8WRtXi8+GHm7mKaU3urfpSEzWe2wCIChs6/sdocUsTKJiA==
+
 lodash.merge@^4.6.2:
   version "4.6.2"
   resolved "https://registry.yarnpkg.com/lodash.merge/-/lodash.merge-4.6.2.tgz#558aa53b43b661e1925a0afdfa36a9a1085fe57a"
@@ -6235,6 +6250,14 @@ react-native-mmkv@^2.12.2:
   version "2.12.2"
   resolved "https://registry.yarnpkg.com/react-native-mmkv/-/react-native-mmkv-2.12.2.tgz#4bba0f5f04e2cf222494cce3a9794ba6a4894dee"
   integrity sha512-6058Aq0p57chPrUutLGe9fYoiDVDNMU2PKV+lLFUJ3GhoHvUrLdsS1PDSCLr00yqzL4WJQ7TTzH+V8cpyrNcfg==
+
+react-native-picker-select@^9.1.3:
+  version "9.1.3"
+  resolved "https://registry.yarnpkg.com/react-native-picker-select/-/react-native-picker-select-9.1.3.tgz#eaa052c483a7935def8fb28e5ffdf1537b37ded2"
+  integrity sha512-O2EmlY4Mg5fZWxECTQJBDhO61as6RDbPYYiNoryaa0gmIkWxhANLsZI+ElEVru1h0Fp9UlCFtBDI5MwhHR9AxA==
+  dependencies:
+    lodash.isequal "^4.5.0"
+    lodash.isobject "^3.0.2"
 
 react-native-ratings@8.0.4:
   version "8.0.4"
