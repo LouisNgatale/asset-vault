@@ -12,6 +12,8 @@ import DocumentPicker, {
 } from 'react-native-document-picker';
 import storage from '@react-native-firebase/storage';
 import { uploadContract } from '../../state/asset/actions.ts';
+import screens from '../../constants/screens.ts';
+import { useNavigation } from '@react-navigation/native';
 
 export default function ContractDrafting({
   nextStep,
@@ -21,6 +23,7 @@ export default function ContractDrafting({
   previousStep: () => void;
   deal: Deal;
 }) {
+  const navigation = useNavigation();
   const [selectedPdf, setSelectedPdf] = useState<
     DocumentPickerResponse | undefined
   >();
@@ -106,14 +109,16 @@ export default function ContractDrafting({
 
   const UploadContract = ({
     type,
+    message,
+    buttonMessage,
   }: {
     type: 'signedContract' | 'originalContract';
+    message: string;
+    buttonMessage?: string;
   }) => {
     return (
       <>
-        <ThemeText style={tw`text-center my-3`}>
-          Please proceed with uploading the contract below so as to proceed
-        </ThemeText>
+        <ThemeText style={tw`text-center my-3`}>{message}</ThemeText>
 
         <TouchableOpacity
           onPress={handleSelectPdf}
@@ -125,7 +130,7 @@ export default function ContractDrafting({
         <ThemeButton
           disabled={!fileDownloadUrl}
           onPress={handleSubmitContract(type)}
-          label={'Upload Contract'}
+          label={buttonMessage || 'Upload Contract'}
         />
       </>
     );
@@ -136,12 +141,17 @@ export default function ContractDrafting({
       {isNil(deal.originalContract) && (
         <View style={tw`mb-3`}>
           <>
-            {deal.asset.owner.uuid !== user.uuid && (
-              <UploadContract type={'originalContract'} />
+            {deal.asset.owner.uuid === user.uuid && (
+              <UploadContract
+                type={'originalContract'}
+                message={
+                  'Please proceed with uploading the contract below so as to proceed'
+                }
+              />
             )}
           </>
           <>
-            {deal.asset.owner.uuid === user.uuid && (
+            {deal.asset.owner.uuid !== user.uuid && (
               <>
                 <ThemeText style={tw`text-center mb-3`}>
                   The owner is yet to upload a contract draft, please wait
@@ -157,7 +167,31 @@ export default function ContractDrafting({
         <View style={tw`mb-3`}>
           <>
             {deal.asset.owner.uuid !== user.uuid && (
-              <UploadContract type={'signedContract'} />
+              <View>
+                <ThemeButton
+                  onPress={() => {
+                    navigation.navigate(screens.PdfViewer, {
+                      uri: deal.originalContract,
+                    });
+                  }}
+                  style={tw`mt-2`}
+                  label={'Download pdf'}
+                  type="clear"
+                  icon={
+                    <>
+                      <AntDesign name="pdffile1" size={20} style={tw`mr-2`} />
+                    </>
+                  }
+                  disabled={!deal.originalContract}
+                />
+                <UploadContract
+                  type={'signedContract'}
+                  message={
+                    'Please download the contract below, sign, then re-upload it so as to proceed to the next steps'
+                  }
+                  buttonMessage={'Upload signed contract'}
+                />
+              </View>
             )}
           </>
           <>

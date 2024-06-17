@@ -8,6 +8,7 @@ const screens = {
   ItemView: 'ItemView',
   ListAsset: 'ListAsset',
   ActiveDeal: 'ActiveDeal',
+  PdfViewer: 'PdfViewer',
 };
 
 export default screens;

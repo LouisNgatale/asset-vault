@@ -70,5 +70,11 @@
       <string>Zocial.ttf</string>
       <string>Fontisto.ttf</string>
     </array>
+    <key>NSCameraUsageDescription</key>
+    <string>Enables you to scan QR code for your customer receipt in order to verify their validity</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>We need your permission to save photos</string>
+    <key>NSDocumentsUsageDescription</key>
+    <string>We need your permission to access documents</string>
 </dict>
 </plist>

@@ -10,6 +10,7 @@ import store, { persistor } from './src/state/store.ts';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import ActiveDeal from './src/screens/deals/active-deal.tsx';
+import PdfViewer from './src/components/pdf-viewer';
 
 const RootStack = createNativeStackNavigator();
 
@@ -34,6 +35,13 @@ function App(): React.JSX.Element {
       component: ActiveDeal,
       options: {
         title: 'Active Deal',
+      },
+    },
+    {
+      name: screens.PdfViewer,
+      component: PdfViewer,
+      options: {
+        title: 'Preview PDF',
       },
     },
   ];
