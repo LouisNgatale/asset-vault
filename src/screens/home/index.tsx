@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { FlatList, SafeAreaView, View } from 'react-native';
 import tw from '../../lib/tailwind.ts';
 import ItemListCard from '../../components/item-list-card';
@@ -11,9 +11,9 @@ import { Asset } from '../../types/asset.ts';
 
 export default function HomeScreen({ navigation }: any) {
   const dispatch = useAppDispatch();
-  const [assets, setAssets] = useState<Asset[]>([]);
 
   const user = useAppSelector(({ user: { user } }) => user);
+  const assets = useAppSelector(({ assets: { assets } }) => assets);
 
   const handleNavigate = (asset: Asset) => () => {
     navigation.navigate(screens.ItemView, {
@@ -29,9 +29,7 @@ export default function HomeScreen({ navigation }: any) {
 
   const fetchAllOwnerAssets = async () => {
     try {
-      const response = await dispatch(fetchAssets()).unwrap();
-
-      setAssets(response.data);
+      await dispatch(fetchAssets()).unwrap();
     } catch (e) {
       console.error(e);
     }

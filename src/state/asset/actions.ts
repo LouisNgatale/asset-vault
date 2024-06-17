@@ -32,3 +32,38 @@ export const fetchMarketplace = createAppAsyncThunk(
     }
   },
 );
+
+export const listAssetToMarket = createAppAsyncThunk(
+  'assets/listAssetToMarket',
+  async (
+    payload: { listingPrice: string; assetUUID: string },
+    { rejectWithValue },
+  ) => {
+    try {
+      return await requestRetry<{
+        data: Asset[];
+      }>(`${API_URL}${routes.fetchMarketplace}/list/${payload.assetUUID}`, {
+        body: JSON.stringify(payload),
+        method: 'POST',
+      });
+    } catch (e) {
+      return rejectWithValue(e as ResponseError<AppResponseError>);
+    }
+  },
+);
+
+export const deListAssetFromMarket = createAppAsyncThunk(
+  'assets/deListAssetFromMarket',
+  async (payload: { assetUUID: string }, { rejectWithValue }) => {
+    try {
+      return await requestRetry<{
+        data: Asset[];
+      }>(`${API_URL}${routes.fetchMarketplace}/de-list/${payload.assetUUID}`, {
+        body: JSON.stringify(payload),
+        method: 'POST',
+      });
+    } catch (e) {
+      return rejectWithValue(e as ResponseError<AppResponseError>);
+    }
+  },
+);

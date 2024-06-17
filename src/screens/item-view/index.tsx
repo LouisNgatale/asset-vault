@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
+  Alert,
   Dimensions,
   FlatList,
   Image,
@@ -13,27 +14,47 @@ import Carousel from 'react-native-reanimated-carousel';
 import ThemeText from '../../components/theme-text.tsx';
 import Entypo from 'react-native-vector-icons/Entypo';
 import ThemeButton from '../../components/theme-button.tsx';
-import screens from '../../constants/screens.ts';
 import { UserType } from '../../constants';
 import SimilarItemCard from '../../components/similar-items-card.tsx';
 import Feather from 'react-native-vector-icons/Feather';
 import MapView, { Marker } from 'react-native-maps';
 import { Asset } from '../../types/asset.ts';
+import BottomSheet from '../../components/bottom-sheet';
+import ListItemToMarket from './list-item-form.tsx';
+import { useAppDispatch } from '../../lib/hooks/useRedux.ts';
+import {
+  deListAssetFromMarket,
+  fetchAssets,
+} from '../../state/asset/actions.ts';
 
-export default function ItemView({
-  navigation,
-  route,
-}: {
-  navigation: any;
-  route: any;
-}) {
+export default function ItemView({ route }: { route: any }) {
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const userType = route.params.userType as UserType;
   const asset = route.params.asset as Asset;
+  const dispatch = useAppDispatch();
 
   const width = Dimensions.get('window').width;
 
   const handleListAssetForSale = () => {
-    navigation.navigate(screens.ListAsset);
+    setIsModalVisible(true);
+  };
+
+  const handleDeLIstAssetFromMarket = async () => {
+    try {
+      await dispatch(
+        deListAssetFromMarket({
+          assetUUID: asset.uuid,
+        }),
+      ).unwrap();
+      Alert.alert('Success', 'Your asset has been de-listed from the market');
+      dispatch(fetchAssets());
+    } catch (e) {
+      console.error(e);
+      Alert.alert(
+        'Failure',
+        'Failed to de-list asset from market, please try again later.',
+      );
+    }
   };
 
   return (
@@ -108,7 +129,7 @@ export default function ItemView({
           {userType === UserType.OWNER && asset.isListed && (
             <>
               <ThemeButton
-                onPress={handleListAssetForSale}
+                onPress={handleDeLIstAssetFromMarket}
                 label={'De-List from Market'}
               />
             </>
@@ -172,6 +193,12 @@ export default function ItemView({
           )}
         </View>
       </ScrollView>
+
+      <BottomSheet
+        isModalVisible={isModalVisible}
+        setIsModalVisible={setIsModalVisible}>
+        <ListItemToMarket assetId={asset.uuid} asset={asset} />
+      </BottomSheet>
     </SafeAreaView>
   );
 }
