@@ -3,7 +3,8 @@ import { requestRetry, ResponseError } from '../../lib/request';
 import { AppResponseError } from '../user/types.ts';
 import Config from 'react-native-config';
 import { routes } from '../../constants/routes.ts';
-import { Asset, Deal } from '../../types/asset.ts';
+import { Asset, BookingStage, Deal } from '../../types/asset.ts';
+import { DealStage } from '../../constants/asset.ts';
 
 const { API_URL } = Config;
 
@@ -118,6 +119,31 @@ export const sendMessage = createAppAsyncThunk(
       }>(`${API_URL}${routes.sendMessage}/${dealUUID}`, {
         method: 'POST',
         body: JSON.stringify(messages),
+      });
+    } catch (e) {
+      return rejectWithValue(e as ResponseError<AppResponseError>);
+    }
+  },
+);
+
+export const updateDeal = createAppAsyncThunk(
+  'assets/updateDeal',
+  async (
+    {
+      stage,
+      dealUUID,
+    }: {
+      stage: BookingStage;
+      dealUUID: string;
+    },
+    { rejectWithValue },
+  ) => {
+    try {
+      return await requestRetry<{
+        data: Deal[];
+      }>(`${API_URL}${routes.fetchDeals}/${dealUUID}`, {
+        method: 'PUT',
+        body: JSON.stringify(stage),
       });
     } catch (e) {
       return rejectWithValue(e as ResponseError<AppResponseError>);

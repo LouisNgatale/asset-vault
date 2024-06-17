@@ -3,9 +3,11 @@ import { GiftedChat, IMessage } from 'react-native-gifted-chat';
 import { Dimensions, View } from 'react-native';
 import tw from '../../lib/tailwind.ts';
 import ThemeButton from '../theme-button.tsx';
-import { Deal } from '../../types/asset.ts';
+import { BookingStage, Deal } from '../../types/asset.ts';
 import { useAppDispatch, useAppSelector } from '../../lib/hooks/useRedux.ts';
-import { sendMessage } from '../../state/asset/actions.ts';
+import { sendMessage, updateDeal } from '../../state/asset/actions.ts';
+import { DealStage } from '../../constants/asset.ts';
+import { useNavigation } from '@react-navigation/native';
 
 export default function Negotiation({
   nextStep,
@@ -15,6 +17,7 @@ export default function Negotiation({
   previousStep: () => void;
   deal: Deal;
 }) {
+  const navigation = useNavigation();
   const dispatch = useAppDispatch();
   const [messages, setMessages] = useState<IMessage[]>([]);
 
@@ -70,6 +73,40 @@ export default function Negotiation({
   }, []);
 
   const height = Dimensions.get('screen').height;
+
+  const handleCompleteNegotiations = () => {
+    try {
+      const payload: BookingStage = {
+        name: DealStage.NEGOTIATION,
+        date: new Date(),
+        metadata: {
+          status: 'Completed',
+        },
+      };
+
+      dispatch(
+        updateDeal({
+          stage: payload,
+          dealUUID: deal.uuid,
+        }),
+      );
+
+      nextStep();
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleEndDeal = () => {
+    // TODO: Update the deal as ended
+    // TODO: Close the modal
+    try {
+      navigation.goBack();
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   return (
     <View
       style={[
@@ -91,11 +128,14 @@ export default function Negotiation({
       {/* TODO: Uncomment */}
       {/*{deal.asset.owner.uuid === user.uuid && (*/}
       <View style={tw`mb-2`}>
-        <ThemeButton label="Proceed next step" onPress={nextStep} />
+        <ThemeButton
+          label="Proceed next step"
+          onPress={handleCompleteNegotiations}
+        />
       </View>
       <ThemeButton
         label="End Negotiations"
-        onPress={() => nextStep()}
+        onPress={handleEndDeal}
         type="clear"
       />
       {/*)}*/}
