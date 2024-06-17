@@ -9,6 +9,7 @@ import { fetchAssets } from '../../state/asset/actions.ts';
 import { useAppDispatch, useAppSelector } from '../../lib/hooks/useRedux.ts';
 import { Asset } from '../../types/asset.ts';
 import { ViewType } from '../item-view';
+import { isEmpty } from 'lodash';
 
 export default function HomeScreen({ navigation }: any) {
   const dispatch = useAppDispatch();
@@ -45,7 +46,20 @@ export default function HomeScreen({ navigation }: any) {
     <SafeAreaView style={tw`flex-1 p-4`}>
       <View style={tw`p-4`}>
         <ThemeText style={tw`text-lg font-semibold`}>Your Assets</ThemeText>
-        <FlatList data={assets} renderItem={renderItemList} style={tw`mt-4`} />
+        {!isEmpty(assets) && (
+          <FlatList
+            data={assets}
+            renderItem={renderItemList}
+            style={tw`mt-4`}
+          />
+        )}
+
+        {isEmpty(assets) && (
+          <ThemeText style={tw`text-center mt-3`}>
+            There's no assets listed at the marketplace at the moment, please
+            check in later.
+          </ThemeText>
+        )}
       </View>
     </SafeAreaView>
   );
