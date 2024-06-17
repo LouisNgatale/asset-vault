@@ -4,7 +4,6 @@ import { AppResponseError } from '../user/types.ts';
 import Config from 'react-native-config';
 import { routes } from '../../constants/routes.ts';
 import { Asset, BookingStage, Deal } from '../../types/asset.ts';
-import { DealStage } from '../../constants/asset.ts';
 
 const { API_URL } = Config;
 
@@ -144,6 +143,31 @@ export const updateDeal = createAppAsyncThunk(
       }>(`${API_URL}${routes.fetchDeals}/${dealUUID}`, {
         method: 'PUT',
         body: JSON.stringify(stage),
+      });
+    } catch (e) {
+      return rejectWithValue(e as ResponseError<AppResponseError>);
+    }
+  },
+);
+
+export const uploadContract = createAppAsyncThunk(
+  'assets/uploadContract',
+  async (
+    data: {
+      dealUUID: string;
+      signedContract?: string;
+      originalContract?: string;
+    },
+    { rejectWithValue },
+  ) => {
+    try {
+      const { dealUUID, ...payload } = data;
+
+      return await requestRetry<{
+        data: Deal[];
+      }>(`${API_URL}${routes.fetchDeals}/${dealUUID}/upload`, {
+        method: 'POST',
+        body: JSON.stringify(payload),
       });
     } catch (e) {
       return rejectWithValue(e as ResponseError<AppResponseError>);

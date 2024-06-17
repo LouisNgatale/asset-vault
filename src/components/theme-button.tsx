@@ -15,6 +15,7 @@ type Props = {
   labelStyle?: TextStyle;
   icon?: any;
   loading?: boolean;
+  disabled?: boolean;
   onPress: () => any;
 };
 
@@ -26,12 +27,16 @@ export default function ThemeButton({
   icon,
   onPress,
   loading,
+  disabled,
 }: Props) {
   let defaultStyle = tw`w-full text-center flex flex-row items-center justify-center px-6 min-h-[45px] rounded-md`;
 
   if (type === 'clear') {
     return (
-      <TouchableOpacity onPress={onPress} style={[defaultStyle, style]}>
+      <TouchableOpacity
+        disabled={disabled}
+        onPress={onPress}
+        style={[defaultStyle, style]}>
         {icon}
         {loading && (
           <ActivityIndicator size="small" color="#0000ff" style={tw`mr-3`} />
@@ -45,6 +50,7 @@ export default function ThemeButton({
   if (type === 'outlined') {
     return (
       <TouchableOpacity
+        disabled={disabled}
         onPress={onPress}
         style={[defaultStyle, tw`border border-primary-100`, style]}>
         {icon}
@@ -61,6 +67,7 @@ export default function ThemeButton({
     return (
       <TouchableOpacity
         onPress={onPress}
+        disabled={disabled}
         style={[
           defaultStyle,
           tw`border border-primary-100 rounded-full`,
@@ -77,6 +84,7 @@ export default function ThemeButton({
 
   return (
     <TouchableOpacity
+      disabled={disabled}
       onPress={onPress}
       style={[defaultStyle, tw`bg-primary-100`]}>
       {icon}
