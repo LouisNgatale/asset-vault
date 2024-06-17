@@ -8,6 +8,7 @@ import { UserType } from '../../constants';
 import { fetchAssets } from '../../state/asset/actions.ts';
 import { useAppDispatch, useAppSelector } from '../../lib/hooks/useRedux.ts';
 import { Asset } from '../../types/asset.ts';
+import { ViewType } from '../item-view';
 
 export default function HomeScreen({ navigation }: any) {
   const dispatch = useAppDispatch();
@@ -20,6 +21,7 @@ export default function HomeScreen({ navigation }: any) {
       userType:
         asset.owner.uuid === user.uuid ? UserType.OWNER : UserType.BUYER,
       asset,
+      viewType: ViewType.MARKET_PLACE,
     });
   };
 

@@ -26,10 +26,17 @@ import {
   deListAssetFromMarket,
   fetchAssets,
 } from '../../state/asset/actions.ts';
+import { toTSH } from '../../utils/currency.ts';
+
+export enum ViewType {
+  MARKET_PLACE = 'MARKET_PLACE',
+  OWNER_ASSET = 'OWNER_ASSET',
+}
 
 export default function ItemView({ route }: { route: any }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const userType = route.params.userType as UserType;
+  const viewType = route.params.viewType as ViewType;
   const asset = route.params.asset as Asset;
   const dispatch = useAppDispatch();
 
@@ -97,9 +104,15 @@ export default function ItemView({ route }: { route: any }) {
             </ThemeText>
           </View>
 
-          {userType === UserType.BUYER && (
+          {viewType === ViewType.MARKET_PLACE && (
             <ThemeText style={tw`mb-3 font-semibold`}>
-              Price: Tzs 14,000,000/=
+              Price: {toTSH(asset.listingPrice || asset.valuation || '0')}
+            </ThemeText>
+          )}
+
+          {viewType === ViewType.OWNER_ASSET && (
+            <ThemeText style={tw`mb-3 font-semibold`}>
+              Price: {toTSH(asset.valuation || '0')}
             </ThemeText>
           )}
 

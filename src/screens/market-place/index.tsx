@@ -12,6 +12,7 @@ import ThemeText from '../../components/theme-text.tsx';
 import { isEmpty } from 'lodash';
 import { fetchMarketplace } from '../../state/asset/actions.ts';
 import { useAppDispatch, useAppSelector } from '../../lib/hooks/useRedux.ts';
+import { ViewType } from '../item-view';
 
 export default function MarketPlace({ navigation }: any) {
   const [search, setSearch] = useState('');
@@ -23,8 +24,10 @@ export default function MarketPlace({ navigation }: any) {
 
   const handleNavigate = (asset: Asset) => () => {
     navigation.navigate(screens.ItemView, {
-      userType: asset.owner === user.uuid ? UserType.OWNER : UserType.BUYER,
+      userType:
+        asset.owner.uuid === user.uuid ? UserType.OWNER : UserType.BUYER,
       asset,
+      viewType: ViewType.MARKET_PLACE,
     });
   };
 
