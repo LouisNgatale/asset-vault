@@ -24,6 +24,7 @@ export default function ActiveDeal({ route }: { route: any }) {
   const handleNextStep = () => {
     setStep((currStep) => {
       if (currStep < 4) {
+        currStep++;
         return currStep++;
       }
 

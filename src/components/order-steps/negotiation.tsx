@@ -22,7 +22,7 @@ export default function Negotiation({
   // const [open, setOpen] = useState(false);
 
   const mapMessage = (message: any) => ({
-    _id: message.uuid,
+    _id: message.id,
     text: message.text,
     createdAt: message.createdAt,
     user: {
@@ -87,8 +87,17 @@ export default function Negotiation({
           avatar: 'https://placeimg.com/140/140/any',
         }}
       />
+
+      {/* TODO: Uncomment */}
       {/*{deal.asset.owner.uuid === user.uuid && (*/}
-      <ThemeButton label="Close Negotiations" onPress={() => nextStep()} />
+      <View style={tw`mb-2`}>
+        <ThemeButton label="Proceed next step" onPress={nextStep} />
+      </View>
+      <ThemeButton
+        label="End Negotiations"
+        onPress={() => nextStep()}
+        type="clear"
+      />
       {/*)}*/}
     </View>
   );
