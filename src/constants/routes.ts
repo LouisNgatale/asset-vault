@@ -4,4 +4,6 @@ export const routes = {
 
   fetchAssets: '/api/assets/owner',
   fetchMarketplace: '/api/assets/market-place',
+  assets: '/api/assets',
+  fetchDeals: '/api/assets/deals',
 };

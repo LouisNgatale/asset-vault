@@ -3,7 +3,7 @@ import { requestRetry, ResponseError } from '../../lib/request';
 import { AppResponseError } from '../user/types.ts';
 import Config from 'react-native-config';
 import { routes } from '../../constants/routes.ts';
-import { Asset } from '../../types/asset.ts';
+import { Asset, Deal } from '../../types/asset.ts';
 
 const { API_URL } = Config;
 
@@ -62,6 +62,38 @@ export const deListAssetFromMarket = createAppAsyncThunk(
         body: JSON.stringify(payload),
         method: 'POST',
       });
+    } catch (e) {
+      return rejectWithValue(e as ResponseError<AppResponseError>);
+    }
+  },
+);
+
+export const bookAsset = createAppAsyncThunk(
+  'assets/bookAsset',
+  async (
+    payload: { assetUUID: string; buyer: any; proposedPrice: string },
+    { rejectWithValue },
+  ) => {
+    try {
+      return await requestRetry<{
+        data: Asset[];
+      }>(`${API_URL}${routes.assets}/book`, {
+        body: JSON.stringify(payload),
+        method: 'POST',
+      });
+    } catch (e) {
+      return rejectWithValue(e as ResponseError<AppResponseError>);
+    }
+  },
+);
+
+export const fetchDeals = createAppAsyncThunk(
+  'assets/fetchDeals',
+  async (payload: undefined, { rejectWithValue }) => {
+    try {
+      return await requestRetry<{
+        data: Deal[];
+      }>(`${API_URL}${routes.fetchDeals}`);
     } catch (e) {
       return rejectWithValue(e as ResponseError<AppResponseError>);
     }

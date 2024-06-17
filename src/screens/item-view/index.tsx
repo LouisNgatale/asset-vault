@@ -27,6 +27,7 @@ import {
   fetchAssets,
 } from '../../state/asset/actions.ts';
 import { toTSH } from '../../utils/currency.ts';
+import BookAssetForm from './book-asset-form.tsx';
 
 export enum ViewType {
   MARKET_PLACE = 'MARKET_PLACE',
@@ -39,10 +40,17 @@ export default function ItemView({ route }: { route: any }) {
   const viewType = route.params.viewType as ViewType;
   const asset = route.params.asset as Asset;
   const dispatch = useAppDispatch();
+  const [form, setForm] = useState('');
 
   const width = Dimensions.get('window').width;
 
   const handleListAssetForSale = () => {
+    setForm('LIST_ASSET');
+    setIsModalVisible(true);
+  };
+
+  const handleBookAsset = async () => {
+    setForm('BOOK_ASSET');
     setIsModalVisible(true);
   };
 
@@ -123,10 +131,7 @@ export default function ItemView({ route }: { route: any }) {
 
           {userType === UserType.BUYER && (
             <>
-              <ThemeButton
-                onPress={handleListAssetForSale}
-                label={'Book Now'}
-              />
+              <ThemeButton onPress={handleBookAsset} label={'Book Now'} />
             </>
           )}
 
@@ -210,7 +215,12 @@ export default function ItemView({ route }: { route: any }) {
       <BottomSheet
         isModalVisible={isModalVisible}
         setIsModalVisible={setIsModalVisible}>
-        <ListItemToMarket assetId={asset.uuid} asset={asset} />
+        {form === 'LIST_ASSET' && (
+          <ListItemToMarket assetId={asset.uuid} asset={asset} />
+        )}
+        {form === 'BOOK_ASSET' && (
+          <BookAssetForm assetId={asset.uuid} asset={asset} />
+        )}
       </BottomSheet>
     </SafeAreaView>
   );
