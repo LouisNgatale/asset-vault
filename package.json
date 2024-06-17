@@ -19,6 +19,7 @@
     "@rneui/base": "^4.0.0-rc.8",
     "@rneui/themed": "^4.0.0-rc.8",
     "async-retry": "^1.3.3",
+    "currency.js": "^2.0.4",
     "lodash": "^4.17.21",
     "react": "18.2.0",
     "react-hook-form": "^7.51.4",

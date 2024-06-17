@@ -4,11 +4,12 @@ import ThemeText from '../theme-text.tsx';
 import tw from '../../lib/tailwind.ts';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { colors } from '../../constants/colors.ts';
+import { Asset } from '../../types/asset.ts';
 
-function ItemListCard({ onPress }: any) {
+function ItemListCard({ onPress, asset }: { onPress: any; asset: Asset }) {
   return (
     <TouchableOpacity
-      onPress={onPress}
+      onPress={onPress(asset)}
       style={tw`w-full bg-white min-h-20 mb-3 rounded-md p-2 shadow-md`}>
       <Image
         source={{
@@ -22,12 +23,16 @@ function ItemListCard({ onPress }: any) {
         }}
       />
       <View style={tw`flex flex-row justify-between mb-3`}>
-        <ThemeText>Land</ThemeText>
-        <ThemeText type="subtext">1,000 Sqm</ThemeText>
+        <ThemeText>{asset.type.toLowerCase()}</ThemeText>
+        <ThemeText type="subtext">
+          {asset.dimensions.value.toLocaleString()} {asset.dimensions.unit}
+        </ThemeText>
       </View>
       <View style={tw`flex flex-row gap-3 items-center mb-3`}>
         <Entypo name="location" size={20} color={colors.orange} />
-        <ThemeText style={tw`font-semibold`}>Mbezi Beach makonde</ThemeText>
+        <ThemeText style={tw`font-semibold`}>
+          {asset.location.locationName}
+        </ThemeText>
       </View>
     </TouchableOpacity>
   );

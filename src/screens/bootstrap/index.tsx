@@ -2,7 +2,10 @@ import React, { useEffect, useState } from 'react';
 import Emblem from '../../assets/svg/emblem';
 import { View } from 'react-native';
 import tw from '../../lib/tailwind.ts';
-import { BottomNavigation } from '../../config/navigation.tsx';
+import {
+  AuthenticationScreens,
+  BottomNavigation,
+} from '../../config/navigation.tsx';
 import { useAppDispatch, useAppSelector } from '../../lib/hooks/useRedux.ts';
 import { setAccessToken, setUserLoading } from '../../state/user/reducer.ts';
 import { STORAGE_INFO } from '../../constants';
@@ -25,7 +28,6 @@ export default function BootstrapScreen(): React.JSX.Element {
 
   const setupApp = async () => {
     try {
-      console.log('Setting app');
       dispatch(setUserLoading(true));
 
       const storedAccessToken = storage.getString(STORAGE_INFO.TOKEN);
@@ -55,9 +57,9 @@ export default function BootstrapScreen(): React.JSX.Element {
 
   return (
     <>
-      {<BottomNavigation />}
-      {/*{isAuthenticated && <BottomNavigation />}*/}
-      {/*{!isAuthenticated && <AuthenticationScreens />}*/}
+      {/*{<BottomNavigation />}*/}
+      {isAuthenticated && <BottomNavigation />}
+      {!isAuthenticated && <AuthenticationScreens />}
     </>
   );
 }

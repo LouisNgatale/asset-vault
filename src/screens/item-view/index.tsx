@@ -2,11 +2,11 @@ import React from 'react';
 import {
   Dimensions,
   FlatList,
+  Image,
   SafeAreaView,
   ScrollView,
   TouchableOpacity,
   View,
-  Image,
 } from 'react-native';
 import tw from '../../lib/tailwind.ts';
 import Carousel from 'react-native-reanimated-carousel';
@@ -17,10 +17,18 @@ import screens from '../../constants/screens.ts';
 import { UserType } from '../../constants';
 import SimilarItemCard from '../../components/similar-items-card.tsx';
 import Feather from 'react-native-vector-icons/Feather';
-import MapView from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
+import { Asset } from '../../types/asset.ts';
 
-export default function ItemView({ navigation, route }: any) {
+export default function ItemView({
+  navigation,
+  route,
+}: {
+  navigation: any;
+  route: any;
+}) {
   const userType = route.params.userType as UserType;
+  const asset = route.params.asset as Asset;
 
   const width = Dimensions.get('window').width;
 
@@ -58,12 +66,14 @@ export default function ItemView({ navigation, route }: any) {
         />
         <View style={tw`p-4`}>
           <ThemeText style={tw`mb-2`} type="subtext">
-            Asset Type
+            {asset.type}
           </ThemeText>
 
           <View style={tw`flex flex-row gap-3 items-center mb-3`}>
             <Entypo name="location" size={20} />
-            <ThemeText style={tw`font-bold`}>Location</ThemeText>
+            <ThemeText style={tw`font-bold`}>
+              {asset.location.locationName}
+            </ThemeText>
           </View>
 
           {userType === UserType.BUYER && (
@@ -74,14 +84,7 @@ export default function ItemView({ navigation, route }: any) {
 
           <ThemeText style={tw`mb-2`}>Description</ThemeText>
           <ThemeText style={tw`mb-4 text-justify`} type="subtext">
-            Location: Suburban residential area with established homes and
-            schools nearby. Size and Shape: Half-acre lot with a rectangular
-            shape and mature trees. Zoning and Permits: Residential zoning,
-            permits required for new construction. Terrain and Features: Level
-            terrain, utility connections at the street, and no HOA restrictions.
-            Potential Use: Ideal for building a custom single-family home with a
-            backyard oasis. Access and Transportation: Paved road access, public
-            utilities available, and commuter routes nearby.
+            {asset.description}
           </ThemeText>
 
           <ThemeButton
@@ -94,19 +97,23 @@ export default function ItemView({ navigation, route }: any) {
             <MapView
               style={tw`flex-1`}
               initialRegion={{
-                latitude: 37.78825,
-                longitude: -122.4324,
+                latitude: asset.location.latitude,
+                longitude: asset.location.longitude,
                 latitudeDelta: 0.0922,
                 longitudeDelta: 0.0421,
-              }}
-            />
+              }}>
+              <Marker
+                coordinate={{
+                  latitude: asset.location.latitude,
+                  longitude: asset.location.longitude,
+                }}
+              />
+            </MapView>
           </View>
 
           <ThemeText>Near by</ThemeText>
 
-          <ThemeText type="subtext">
-            Place near by the areas in this location
-          </ThemeText>
+          <ThemeText type="subtext">{asset.location.nearbyLocation}</ThemeText>
 
           {userType === UserType.BUYER && (
             <View style={tw`mt-4`}>
