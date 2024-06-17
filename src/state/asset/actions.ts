@@ -19,3 +19,16 @@ export const fetchAssets = createAppAsyncThunk(
     }
   },
 );
+
+export const fetchMarketplace = createAppAsyncThunk(
+  'assets/fetchMarketplace',
+  async (value: undefined, { rejectWithValue }) => {
+    try {
+      return await requestRetry<{
+        data: Asset[];
+      }>(`${API_URL}${routes.fetchMarketplace}`);
+    } catch (e) {
+      return rejectWithValue(e as ResponseError<AppResponseError>);
+    }
+  },
+);

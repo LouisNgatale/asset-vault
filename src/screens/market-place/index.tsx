@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FlatList, SafeAreaView, View } from 'react-native';
 import tw from '../../lib/tailwind.ts';
 import { SearchBar } from '@rneui/themed';
@@ -7,16 +7,24 @@ import { colors } from '../../constants/colors.ts';
 import ItemListCard from '../../components/item-list-card';
 import screens from '../../constants/screens.ts';
 import { UserType } from '../../constants';
+import { Asset } from '../../types/asset.ts';
+import ThemeText from '../../components/theme-text.tsx';
+import { isEmpty } from 'lodash';
+import { fetchMarketplace } from '../../state/asset/actions.ts';
+import { useAppDispatch, useAppSelector } from '../../lib/hooks/useRedux.ts';
 
 export default function MarketPlace({ navigation }: any) {
   const [search, setSearch] = useState('');
   const searchRef = useRef();
+  const [assets, setAssets] = useState<Asset[]>([]);
+  const dispatch = useAppDispatch();
 
-  const items = [1, 2, 3, 4, 5, 6, 7];
+  const user = useAppSelector(({ user: { user } }) => user);
 
-  const handleNavigate = () => {
+  const handleNavigate = (asset: Asset) => () => {
     navigation.navigate(screens.ItemView, {
-      userType: UserType.BUYER,
+      userType: asset.owner === user.uuid ? UserType.OWNER : UserType.BUYER,
+      asset,
     });
   };
 
@@ -24,8 +32,24 @@ export default function MarketPlace({ navigation }: any) {
     setSearch(search);
   };
 
-  const renderItemList = () => {
-    return <ItemListCard onPress={handleNavigate} />;
+  const renderItemList = ({ item }: { item: Asset }) => {
+    return <ItemListCard onPress={handleNavigate} asset={item} />;
+  };
+
+  useEffect(() => {
+    void fetchMarketplaceAssets();
+  }, []);
+
+  const fetchMarketplaceAssets = async () => {
+    try {
+      const response = await dispatch(fetchMarketplace()).unwrap();
+
+      if (response.data) {
+        setAssets(response.data);
+      }
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (
@@ -43,7 +67,20 @@ export default function MarketPlace({ navigation }: any) {
           value={search}
         />
 
-        <FlatList data={items} renderItem={renderItemList} style={tw`mt-4`} />
+        {!isEmpty(assets) && (
+          <FlatList
+            data={assets}
+            renderItem={renderItemList}
+            style={tw`mt-4`}
+          />
+        )}
+
+        {isEmpty(assets) && (
+          <ThemeText style={tw`text-center mt-3`}>
+            There's no assets listed at the marketplace at the moment, please
+            check in later.
+          </ThemeText>
+        )}
       </View>
     </SafeAreaView>
   );

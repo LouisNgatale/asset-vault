@@ -66,7 +66,7 @@ export default function ItemView({
         />
         <View style={tw`p-4`}>
           <ThemeText style={tw`mb-2`} type="subtext">
-            {asset.type}
+            {asset?.type}
           </ThemeText>
 
           <View style={tw`flex flex-row gap-3 items-center mb-3`}>
@@ -87,10 +87,32 @@ export default function ItemView({
             {asset.description}
           </ThemeText>
 
-          <ThemeButton
-            onPress={handleListAssetForSale}
-            label={userType === UserType.BUYER ? 'Book Now' : 'List to Market'}
-          />
+          {userType === UserType.BUYER && (
+            <>
+              <ThemeButton
+                onPress={handleListAssetForSale}
+                label={'Book Now'}
+              />
+            </>
+          )}
+
+          {userType === UserType.OWNER && !asset.isListed && (
+            <>
+              <ThemeButton
+                onPress={handleListAssetForSale}
+                label={'List to Market'}
+              />
+            </>
+          )}
+
+          {userType === UserType.OWNER && asset.isListed && (
+            <>
+              <ThemeButton
+                onPress={handleListAssetForSale}
+                label={'De-List from Market'}
+              />
+            </>
+          )}
 
           {/* View */}
           <View style={tw`w-full h-70 bg-gray-200 mt-4 mb-4`}>

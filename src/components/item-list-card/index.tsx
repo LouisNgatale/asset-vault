@@ -23,7 +23,7 @@ function ItemListCard({ onPress, asset }: { onPress: any; asset: Asset }) {
         }}
       />
       <View style={tw`flex flex-row justify-between mb-3`}>
-        <ThemeText>{asset.type.toLowerCase()}</ThemeText>
+        <ThemeText>{asset?.type.toLowerCase()}</ThemeText>
         <ThemeText type="subtext">
           {asset.dimensions.value.toLocaleString()} {asset.dimensions.unit}
         </ThemeText>

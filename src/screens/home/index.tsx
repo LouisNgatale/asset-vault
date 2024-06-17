@@ -6,22 +6,25 @@ import ThemeText from '../../components/theme-text.tsx';
 import screens from '../../constants/screens.ts';
 import { UserType } from '../../constants';
 import { fetchAssets } from '../../state/asset/actions.ts';
-import { useAppDispatch } from '../../lib/hooks/useRedux.ts';
+import { useAppDispatch, useAppSelector } from '../../lib/hooks/useRedux.ts';
 import { Asset } from '../../types/asset.ts';
 
 export default function HomeScreen({ navigation }: any) {
   const dispatch = useAppDispatch();
   const [assets, setAssets] = useState<Asset[]>([]);
 
+  const user = useAppSelector(({ user: { user } }) => user);
+
   const handleNavigate = (asset: Asset) => () => {
     navigation.navigate(screens.ItemView, {
-      userType: UserType.OWNER,
+      userType:
+        asset.owner.uuid === user.uuid ? UserType.OWNER : UserType.BUYER,
       asset,
     });
   };
 
   useEffect(() => {
-    void fetchAllOwnerAssets();
+    fetchAllOwnerAssets();
   }, []);
 
   const fetchAllOwnerAssets = async () => {

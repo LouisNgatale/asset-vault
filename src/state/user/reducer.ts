@@ -4,7 +4,7 @@ import { login, register } from './actions.ts';
 type DefaultState = {
   loading: boolean;
   accessToken: string | null;
-  user: string | null;
+  user: any | null;
 };
 
 const defaultState: DefaultState = {

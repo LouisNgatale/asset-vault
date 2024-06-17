@@ -3,4 +3,5 @@ export const routes = {
   register: '/api/auth/register',
 
   fetchAssets: '/api/assets/owner',
+  fetchMarketplace: '/api/assets/market-place',
 };
