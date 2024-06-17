@@ -2,12 +2,15 @@ import React from 'react';
 import { View } from 'react-native';
 import ThemeText from '../theme-text.tsx';
 import tw from '../../lib/tailwind.ts';
+import { Deal } from '../../types/asset.ts';
 
 export default function TitleIssuance({
   nextStep,
+  deal,
 }: {
   nextStep: () => void;
   previousStep: () => void;
+  deal: Deal;
 }) {
   return (
     <View>

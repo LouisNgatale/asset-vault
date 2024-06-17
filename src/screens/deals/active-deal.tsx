@@ -10,13 +10,19 @@ import Negotiation from '../../components/order-steps/negotiation.tsx';
 import ContractDrafting from '../../components/order-steps/contract-drafting.tsx';
 import Signature from '../../components/order-steps/signature.tsx';
 import TitleIssuance from '../../components/order-steps/title-issuance.tsx';
+import { Deal } from '../../types/asset.ts';
+import { DealStage, DealStepsCounter } from '../../constants/asset.ts';
 
-export default function ActiveDeal() {
-  const [step, setStep] = useState(0);
+export default function ActiveDeal({ route }: { route: any }) {
+  const deal = route.params.deal as Deal;
+
+  const lastDealStage = deal.stages[deal.stages.length - 1];
+  const [step, setStep] = useState(
+    DealStepsCounter[lastDealStage.name] + 1 || 0,
+  );
 
   const handleNextStep = () => {
     setStep((currStep) => {
-      console.log({ next: currStep++ });
       if (currStep < 4) {
         return currStep++;
       }
@@ -40,7 +46,11 @@ export default function ActiveDeal() {
       title: <Title>Offer Purchase</Title>,
       content: (
         <Content>
-          <Offer nextStep={handleNextStep} previousStep={handlePreviousStep} />
+          <Offer
+            nextStep={handleNextStep}
+            previousStep={handlePreviousStep}
+            deal={deal}
+          />
         </Content>
       ),
     },
@@ -48,10 +58,11 @@ export default function ActiveDeal() {
       id: 1,
       title: <Title>Negotiation</Title>,
       content: (
-        <Content>
+        <Content key={DealStage.NEGOTIATION}>
           <Negotiation
             nextStep={handleNextStep}
             previousStep={handlePreviousStep}
+            deal={deal}
           />
         </Content>
       ),
@@ -64,6 +75,7 @@ export default function ActiveDeal() {
           <ContractDrafting
             nextStep={handleNextStep}
             previousStep={handlePreviousStep}
+            deal={deal}
           />
         </Content>
       ),
@@ -76,6 +88,7 @@ export default function ActiveDeal() {
           <Signature
             nextStep={handleNextStep}
             previousStep={handlePreviousStep}
+            deal={deal}
           />
         </Content>
       ),
@@ -88,6 +101,7 @@ export default function ActiveDeal() {
           <TitleIssuance
             nextStep={handleNextStep}
             previousStep={handlePreviousStep}
+            deal={deal}
           />
         </Content>
       ),

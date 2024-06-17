@@ -3,12 +3,15 @@ import { View } from 'react-native';
 import ThemeText from '../theme-text.tsx';
 import tw from '../../lib/tailwind.ts';
 import ThemeButton from '../theme-button.tsx';
+import { Deal } from '../../types/asset.ts';
 
 export default function Signature({
   nextStep,
+  deal,
 }: {
   nextStep: () => void;
   previousStep: () => void;
+  deal: Deal;
 }) {
   return (
     <View>

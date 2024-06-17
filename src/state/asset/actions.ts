@@ -99,3 +99,28 @@ export const fetchDeals = createAppAsyncThunk(
     }
   },
 );
+
+export const sendMessage = createAppAsyncThunk(
+  'assets/sendMessage',
+  async (
+    {
+      messages,
+      dealUUID,
+    }: {
+      messages: any[];
+      dealUUID: string;
+    },
+    { rejectWithValue },
+  ) => {
+    try {
+      return await requestRetry<{
+        data: Deal[];
+      }>(`${API_URL}${routes.sendMessage}/${dealUUID}`, {
+        method: 'POST',
+        body: JSON.stringify(messages),
+      });
+    } catch (e) {
+      return rejectWithValue(e as ResponseError<AppResponseError>);
+    }
+  },
+);

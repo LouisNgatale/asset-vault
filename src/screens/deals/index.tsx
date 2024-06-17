@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import {
+  Dimensions,
   Image,
   SafeAreaView,
   ScrollView,
@@ -19,8 +20,9 @@ export default function Deals({ navigation }: { navigation: any }) {
   const dispatch = useAppDispatch();
 
   const handleNavigateToActiveDeal = (deal: Deal) => () => {
-    console.log({ deal });
-    navigation.navigate(screens.ActiveDeal);
+    navigation.navigate(screens.ActiveDeal, {
+      deal,
+    });
   };
 
   useEffect(() => {

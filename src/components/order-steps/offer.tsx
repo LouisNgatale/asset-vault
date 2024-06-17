@@ -8,6 +8,7 @@ import ThemeInput from '../input';
 import Dropdown from '../dropdown';
 import { PaymentType } from '../../constants';
 import ThemeButton from '../theme-button.tsx';
+import { Deal } from '../../types/asset.ts';
 
 const formFieldValues = {
   price: 'price',
@@ -15,9 +16,11 @@ const formFieldValues = {
 
 export default function Offer({
   nextStep,
+  deal,
 }: {
   nextStep: () => void;
   previousStep: () => void;
+  deal: Deal;
 }) {
   const { control } = useForm<LoginDto>({
     defaultValues: {

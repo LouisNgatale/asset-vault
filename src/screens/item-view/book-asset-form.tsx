@@ -8,6 +8,8 @@ import ThemeText from '../../components/theme-text.tsx';
 import ThemeCurrencyInput from '../../components/input/currency-input.tsx';
 import ThemeButton from '../../components/theme-button.tsx';
 import { Asset } from '../../types/asset.ts';
+import Dropdown from '../../components/dropdown';
+import { PaymentType } from '../../constants';
 
 export default function BookAssetForm({
   assetId,
@@ -19,6 +21,18 @@ export default function BookAssetForm({
   const { control, handleSubmit } = useForm({});
   const [loading, setIsLoading] = useState(false);
   const dispatch = useAppDispatch();
+  const [paymentType, setPaymentType] = useState();
+
+  const paymentTypes = [
+    {
+      label: 'Lampsum',
+      value: PaymentType.LAMPSUM,
+    },
+    {
+      label: 'Installment',
+      value: PaymentType.INSTALLMENT,
+    },
+  ];
 
   const user = useAppSelector(({ user: { user } }) => user);
 
@@ -34,6 +48,7 @@ export default function BookAssetForm({
           NIDA: user.NIDA,
           phoneNumber: user.phoneNumber,
         },
+        paymentType: paymentType || PaymentType.LAMPSUM,
       };
 
       await dispatch(bookAsset(payload)).unwrap();
@@ -68,6 +83,13 @@ export default function BookAssetForm({
         keyboardType="numeric"
         maxLength={20}
         returnKeyType="done"
+      />
+
+      <Dropdown
+        items={paymentTypes}
+        label={'Payment type'}
+        onChange={setPaymentType}
+        value={paymentType}
       />
 
       <ThemeButton
