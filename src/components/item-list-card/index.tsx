@@ -13,7 +13,7 @@ function ItemListCard({ onPress, asset }: { onPress: any; asset: Asset }) {
       style={tw`w-full bg-white min-h-20 mb-3 rounded-md p-2 shadow-md`}>
       <Image
         source={{
-          uri: 'https://plus.unsplash.com/premium_photo-1684348962187-988fc3d7f024?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+          uri: asset.images[0],
         }}
         style={{
           height: 300,

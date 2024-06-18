@@ -62,7 +62,7 @@ export default function HomeScreen({ navigation }: any) {
 
   return (
     <SafeAreaView style={tw`flex-1 p-4`}>
-      <View style={tw`p-4`}>
+      <View style={tw`p-4 flex-1`}>
         <View style={tw`flex flex-row justify-between items-center`}>
           <ThemeText style={tw`text-lg font-semibold`}>Your Assets</ThemeText>
 

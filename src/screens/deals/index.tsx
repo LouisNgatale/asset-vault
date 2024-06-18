@@ -46,7 +46,7 @@ export default function Deals({ navigation }: { navigation: any }) {
   return (
     <SafeAreaView>
       <ScrollView
-        contentContainerStyle={tw`p-3 h-full`}
+        contentContainerStyle={tw`p-3 h-full flex-1`}
         refreshControl={
           <RefreshControl refreshing={loading} onRefresh={fetchUserDeals} />
         }>
@@ -57,7 +57,7 @@ export default function Deals({ navigation }: { navigation: any }) {
             <View style={tw`h-[80px] w-[80px] bg-gray-200`}>
               <Image
                 source={{
-                  uri: 'https://plus.unsplash.com/premium_photo-1684348962187-988fc3d7f024?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                  uri: deal.asset.images[0],
                 }}
                 style={{
                   height: 80,
