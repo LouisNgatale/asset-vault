@@ -17,9 +17,7 @@ export default function ActiveDeal({ route }: { route: any }) {
   const deal = route.params.deal as Deal;
 
   const lastDealStage = deal.stages[deal.stages.length - 1];
-  const [step, setStep] = useState(
-    DealStepsCounter[lastDealStage.name] + 1 || 0,
-  );
+  const [step, setStep] = useState(DealStepsCounter[lastDealStage.name] || 0);
 
   const handleNextStep = () => {
     setStep((currStep) => {

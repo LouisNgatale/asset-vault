@@ -4,11 +4,12 @@ import ThemeText from '../theme-text.tsx';
 import tw from '../../lib/tailwind.ts';
 import { useForm } from 'react-hook-form';
 import { LoginDto } from '../../state/user/types.ts';
-import ThemeInput from '../input';
 import Dropdown from '../dropdown';
 import { PaymentType } from '../../constants';
 import ThemeButton from '../theme-button.tsx';
 import { Deal } from '../../types/asset.ts';
+import { toTSH } from '../../utils/currency.ts';
+import { useAppSelector } from '../../lib/hooks/useRedux.ts';
 
 const formFieldValues = {
   price: 'price',
@@ -41,37 +42,53 @@ export default function Offer({
     },
   ];
 
+  const user = useAppSelector(({ user: { user } }) => user);
+
   return (
     <View>
-      <ThemeText style={tw`text-center font-semibold mb-3`}>
-        Propose offer price
-      </ThemeText>
+      {deal.asset.owner.uuid !== user.uuid && (
+        <ThemeText style={tw`text-center font-semibold mb-3`}>
+          Your offer proposal has been submitted to the asset owner. You'll
+          proceed with next steps once they confirm.
+        </ThemeText>
+      )}
 
-      <ThemeInput
-        name={formFieldValues.price}
-        rules={{}}
-        placeholder={'Enter your proposed price'}
-        errors={[]}
-        label="Proposed buying price"
-        control={control}
-        keyboardType="numeric"
-        maxLength={20}
-        returnKeyType="done"
-      />
+      {deal.asset.owner.uuid === user.uuid && (
+        <>
+          <ThemeText style={tw`mb-3`}>
+            The buyer has proposed an offer starting with{' '}
+            {toTSH(deal.proposedPrice)}. You can proceed with negotiations and
+            offer your counter offer
+          </ThemeText>
 
-      <Dropdown
-        items={paymentTypes}
-        label={'Payment type'}
-        onChange={setPaymentType}
-        value={paymentType}
-      />
+          <Dropdown
+            items={paymentTypes}
+            label={'Payment type'}
+            onChange={setPaymentType}
+            value={paymentType}
+          />
 
-      <ThemeButton
-        onPress={() => {
-          nextStep();
-        }}
-        label={'Submit Offer'}
-      />
+          <ThemeButton
+            onPress={() => {
+              nextStep();
+            }}
+            label={'Submit Offer'}
+          />
+        </>
+      )}
+
+      {/*<ThemeCurrencyInput*/}
+      {/*  name={formFieldValues.price}*/}
+      {/*  rules={{}}*/}
+      {/*  placeholder={'Enter your proposed price'}*/}
+      {/*  errors={[]}*/}
+      {/*  defaultValue={deal.proposedPrice}*/}
+      {/*  label="Proposed buying price"*/}
+      {/*  control={control}*/}
+      {/*  keyboardType="numeric"*/}
+      {/*  maxLength={20}*/}
+      {/*  returnKeyType="done"*/}
+      {/*/>*/}
 
       {/*<View style={tw`p-3 bg-gray-100 rounded-md`}>*/}
       {/*  <ThemeText style={tw`font-semibold mb-2`}>*/}

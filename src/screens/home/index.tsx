@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { FlatList, SafeAreaView, View } from 'react-native';
+import { FlatList, SafeAreaView, TouchableOpacity, View } from 'react-native';
 import tw from '../../lib/tailwind.ts';
 import ItemListCard from '../../components/item-list-card';
 import ThemeText from '../../components/theme-text.tsx';
@@ -10,6 +10,9 @@ import { useAppDispatch, useAppSelector } from '../../lib/hooks/useRedux.ts';
 import { Asset } from '../../types/asset.ts';
 import { ViewType } from '../item-view';
 import { isEmpty } from 'lodash';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { setAccessToken } from '../../state/user/reducer.ts';
+import { storage } from '../../state/storage.ts';
 
 export default function HomeScreen({ navigation }: any) {
   const dispatch = useAppDispatch();
@@ -42,10 +45,22 @@ export default function HomeScreen({ navigation }: any) {
     return <ItemListCard onPress={handleNavigate} asset={item} />;
   };
 
+  const handleLogout = () => {
+    storage.clearAll();
+    dispatch(setAccessToken(undefined));
+    // navigation.navigate()
+  };
+
   return (
     <SafeAreaView style={tw`flex-1 p-4`}>
       <View style={tw`p-4`}>
-        <ThemeText style={tw`text-lg font-semibold`}>Your Assets</ThemeText>
+        <View style={tw`flex flex-row justify-between items-center`}>
+          <ThemeText style={tw`text-lg font-semibold`}>Your Assets</ThemeText>
+
+          <TouchableOpacity onPress={handleLogout}>
+            <MaterialIcons name="logout" size={25} />
+          </TouchableOpacity>
+        </View>
         {!isEmpty(assets) && (
           <FlatList
             data={assets}

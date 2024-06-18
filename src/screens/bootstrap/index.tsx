@@ -57,9 +57,8 @@ export default function BootstrapScreen(): React.JSX.Element {
 
   return (
     <>
-      {/*{<BottomNavigation />}*/}
-      {isAuthenticated && <BottomNavigation />}
-      {!isAuthenticated && <AuthenticationScreens />}
+      {accessToken && <BottomNavigation />}
+      {!accessToken && <AuthenticationScreens />}
     </>
   );
 }
