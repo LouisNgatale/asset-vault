@@ -68,11 +68,21 @@ export default function Offer({
             value={paymentType}
           />
 
+          <View style={tw`mb-2`}>
+            <ThemeButton
+              onPress={() => {
+                nextStep();
+              }}
+              label={'Initiate negotiations'}
+            />
+          </View>
+
           <ThemeButton
             onPress={() => {
               nextStep();
             }}
-            label={'Submit Offer'}
+            type="clear"
+            label={'Cancel request'}
           />
         </>
       )}
