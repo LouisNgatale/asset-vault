@@ -76,6 +76,7 @@ export default function MarketPlace({ navigation }: any) {
 
         {!isEmpty(assets) && (
           <FlatList
+            contentContainerStyle={tw`h-full`}
             refreshControl={
               <RefreshControl
                 refreshing={loading}

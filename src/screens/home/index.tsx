@@ -57,12 +57,14 @@ export default function HomeScreen({ navigation }: any) {
   const handleLogout = () => {
     storage.clearAll();
     dispatch(setAccessToken(undefined));
-    // navigation.navigate()
   };
 
   return (
-    <SafeAreaView style={tw`flex-1 p-4`}>
-      <View style={tw`p-4 flex-1`}>
+    <SafeAreaView style={tw`h-full p-4`}>
+      <View style={tw`p-4 h-full`}>
+        <ThemeText style={tw`text-lg mb-2`} type="subtext">
+          Habari, {user.fullName}
+        </ThemeText>
         <View style={tw`flex flex-row justify-between items-center`}>
           <ThemeText style={tw`text-lg font-semibold`}>Your Assets</ThemeText>
 
@@ -72,6 +74,7 @@ export default function HomeScreen({ navigation }: any) {
         </View>
         {!isEmpty(assets) && (
           <FlatList
+            contentContainerStyle={tw`h-full`}
             refreshControl={
               <RefreshControl
                 refreshing={loading}

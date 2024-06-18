@@ -45,8 +45,12 @@ export default function Deals({ navigation }: { navigation: any }) {
 
   return (
     <SafeAreaView>
+      <ThemeText style={tw`text-lg font-semibold text-center`}>
+        Active Deals
+      </ThemeText>
+
       <ScrollView
-        contentContainerStyle={tw`p-3 h-full flex-1`}
+        contentContainerStyle={tw`p-3 h-full`}
         refreshControl={
           <RefreshControl refreshing={loading} onRefresh={fetchUserDeals} />
         }>
