@@ -57,14 +57,14 @@ export default function Deals({ navigation }: { navigation: any }) {
         {deals?.map((deal) => (
           <TouchableOpacity
             onPress={handleNavigateToActiveDeal(deal)}
-            style={tw`w-full rounded-md bg-white mb-3 p-3 flex flex-row gap-3`}>
-            <View style={tw`h-[80px] w-[80px] bg-gray-200`}>
+            style={tw`w-full rounded-md bg-white mb-3 p-3 flex flex-row gap-3 items-center`}>
+            <View style={tw`h-[100px] w-[100px] bg-gray-200 rounded-[6px]`}>
               <Image
                 source={{
                   uri: deal.asset.images[0],
                 }}
                 style={{
-                  height: 80,
+                  height: 100,
                   justifyContent: 'center',
                   borderRadius: 6,
                   marginBottom: 6,
@@ -78,6 +78,9 @@ export default function Deals({ navigation }: { navigation: any }) {
               </ThemeText>
               <ThemeText type="subtext">
                 Seller: {deal.asset.owner.fullName}
+              </ThemeText>
+              <ThemeText type="subtext">
+                Original Price: {toTSH(deal.asset.valuation)}
               </ThemeText>
               <ThemeText type="subtext">
                 Offer: {toTSH(deal.proposedPrice)}

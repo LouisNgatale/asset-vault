@@ -4,6 +4,7 @@ import {
   Dimensions,
   FlatList,
   Image,
+  Linking,
   SafeAreaView,
   ScrollView,
   TouchableOpacity,
@@ -109,16 +110,24 @@ export default function ItemView({ route }: { route: any }) {
           </View>
 
           {viewType === ViewType.MARKET_PLACE && (
-            <ThemeText style={tw`mb-3 font-semibold`}>
+            <ThemeText style={tw`font-semibold`}>
               Price: {toTSH(asset.listingPrice || asset.valuation || '0')}
             </ThemeText>
           )}
 
           {viewType === ViewType.OWNER_ASSET && (
-            <ThemeText style={tw`mb-3 font-semibold`}>
+            <ThemeText style={tw`font-semibold`}>
               Price: {toTSH(asset.valuation || '0')}
             </ThemeText>
           )}
+
+          <ThemeText style={tw`font-semibold text-sm`} type="subtext">
+            Parcel No: {asset.parcelNumber}
+          </ThemeText>
+
+          <ThemeText style={tw`mb-2 font-semibold text-sm`} type="subtext">
+            Plot No: {asset.plotNumber}
+          </ThemeText>
 
           <ThemeText style={tw`mb-2`}>Description</ThemeText>
           <ThemeText style={tw`mb-4 text-justify`} type="subtext">
@@ -179,10 +188,15 @@ export default function ItemView({ route }: { route: any }) {
                 <View style={tw`h-15 w-15 rounded-full bg-white`} />
                 <View>
                   <ThemeText type="subtext">Owner</ThemeText>
-                  <ThemeText style={tw`text-sm`}>Owner Full Name</ThemeText>
+                  <ThemeText style={tw`text-sm`}>
+                    {asset.owner.fullName}
+                  </ThemeText>
 
                   <View style={tw`flex flex-row gap-4 mt-2`}>
                     <TouchableOpacity
+                      onPress={() =>
+                        Linking.openURL(`tel:0${asset.owner.phoneNumber}`)
+                      }
                       style={tw`px-4 py-1 bg-white rounded-md flex flex-row gap-2 items-center`}>
                       <Feather name={'phone'} size={14} />
                       <ThemeText>Call</ThemeText>
