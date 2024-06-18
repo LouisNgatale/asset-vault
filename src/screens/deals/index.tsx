@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
-  Dimensions,
   Image,
+  RefreshControl,
   SafeAreaView,
   ScrollView,
   TouchableOpacity,
@@ -17,6 +17,7 @@ import { toTSH } from '../../utils/currency.ts';
 import { isEmpty } from 'lodash';
 
 export default function Deals({ navigation }: { navigation: any }) {
+  const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
 
   const handleNavigateToActiveDeal = (deal: Deal) => () => {
@@ -31,9 +32,12 @@ export default function Deals({ navigation }: { navigation: any }) {
 
   const fetchUserDeals = async () => {
     try {
+      setLoading(true);
       await dispatch(fetchDeals()).unwrap();
     } catch (e) {
       console.error(e);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -41,7 +45,11 @@ export default function Deals({ navigation }: { navigation: any }) {
 
   return (
     <SafeAreaView>
-      <ScrollView contentContainerStyle={tw`p-3`}>
+      <ScrollView
+        contentContainerStyle={tw`p-3 h-full`}
+        refreshControl={
+          <RefreshControl refreshing={loading} onRefresh={fetchUserDeals} />
+        }>
         {deals?.map((deal) => (
           <TouchableOpacity
             onPress={handleNavigateToActiveDeal(deal)}

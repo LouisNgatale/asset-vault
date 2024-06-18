@@ -1,5 +1,11 @@
-import React, { useEffect } from 'react';
-import { FlatList, SafeAreaView, TouchableOpacity, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import {
+  FlatList,
+  RefreshControl,
+  SafeAreaView,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import tw from '../../lib/tailwind.ts';
 import ItemListCard from '../../components/item-list-card';
 import ThemeText from '../../components/theme-text.tsx';
@@ -16,7 +22,7 @@ import { storage } from '../../state/storage.ts';
 
 export default function HomeScreen({ navigation }: any) {
   const dispatch = useAppDispatch();
-
+  const [loading, setLoading] = useState(false);
   const user = useAppSelector(({ user: { user } }) => user);
   const assets = useAppSelector(({ assets: { assets } }) => assets);
 
@@ -34,10 +40,13 @@ export default function HomeScreen({ navigation }: any) {
   }, []);
 
   const fetchAllOwnerAssets = async () => {
+    setLoading(true);
     try {
       await dispatch(fetchAssets()).unwrap();
     } catch (e) {
       console.error(e);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -63,6 +72,12 @@ export default function HomeScreen({ navigation }: any) {
         </View>
         {!isEmpty(assets) && (
           <FlatList
+            refreshControl={
+              <RefreshControl
+                refreshing={loading}
+                onRefresh={fetchAllOwnerAssets}
+              />
+            }
             data={assets}
             renderItem={renderItemList}
             style={tw`mt-4`}

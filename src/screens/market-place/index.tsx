@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { FlatList, SafeAreaView, View } from 'react-native';
+import { FlatList, RefreshControl, SafeAreaView, View } from 'react-native';
 import tw from '../../lib/tailwind.ts';
 import { SearchBar } from '@rneui/themed';
 import Feather from 'react-native-vector-icons/Feather';
@@ -19,6 +19,7 @@ export default function MarketPlace({ navigation }: any) {
   const searchRef = useRef();
   const [assets, setAssets] = useState<Asset[]>([]);
   const dispatch = useAppDispatch();
+  const [loading, setLoading] = useState(false);
 
   const user = useAppSelector(({ user: { user } }) => user);
 
@@ -44,6 +45,7 @@ export default function MarketPlace({ navigation }: any) {
   }, []);
 
   const fetchMarketplaceAssets = async () => {
+    setLoading(true);
     try {
       const response = await dispatch(fetchMarketplace()).unwrap();
 
@@ -52,6 +54,8 @@ export default function MarketPlace({ navigation }: any) {
       }
     } catch (e) {
       console.error(e);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -72,6 +76,12 @@ export default function MarketPlace({ navigation }: any) {
 
         {!isEmpty(assets) && (
           <FlatList
+            refreshControl={
+              <RefreshControl
+                refreshing={loading}
+                onRefresh={fetchMarketplaceAssets}
+              />
+            }
             data={assets}
             renderItem={renderItemList}
             style={tw`mt-4`}
