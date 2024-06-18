@@ -68,11 +68,16 @@ export default function Deals({ navigation }: { navigation: any }) {
               />
             </View>
             <View>
-              <ThemeText>Deal card</ThemeText>
+              <ThemeText>Buyer: {deal.buyer.fullName}</ThemeText>
               <ThemeText type="subtext">
-                {deal.asset.location.locationName}
+                Location: {deal.asset.location.locationName}
               </ThemeText>
-              <ThemeText type="subtext">{toTSH(deal.proposedPrice)}</ThemeText>
+              <ThemeText type="subtext">
+                Seller: {deal.asset.owner.fullName}
+              </ThemeText>
+              <ThemeText type="subtext">
+                Offer: {toTSH(deal.proposedPrice)}
+              </ThemeText>
             </View>
           </TouchableOpacity>
         ))}
