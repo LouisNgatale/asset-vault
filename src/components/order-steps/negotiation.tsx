@@ -20,9 +20,7 @@ export default function Negotiation({
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
   const [messages, setMessages] = useState<IMessage[]>([]);
-
-  // const [date, setDate] = useState(new Date());
-  // const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const mapMessage = (message: any) => ({
     _id: message.id,
@@ -74,36 +72,55 @@ export default function Negotiation({
 
   const height = Dimensions.get('screen').height;
 
-  const handleCompleteNegotiations = () => {
+  const handleCompleteNegotiations = async () => {
+    setLoading(true);
     try {
       const payload: BookingStage = {
-        name: DealStage.NEGOTIATION,
+        name: DealStage.CONTRACT_DRAFTING,
         date: new Date(),
         metadata: {
-          status: 'Completed',
+          status: 'COMPLETED',
         },
       };
 
-      dispatch(
+      await dispatch(
         updateDeal({
           stage: payload,
           dealUUID: deal.uuid,
         }),
-      );
+      ).unwrap();
 
       nextStep();
     } catch (e) {
       console.error(e);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleEndDeal = () => {
-    // TODO: Update the deal as ended
-    // TODO: Close the modal
+  const handleEndDeal = async () => {
+    setLoading(true);
     try {
+      const payload: BookingStage = {
+        name: DealStage.CANCELLED,
+        date: new Date(),
+        metadata: {
+          status: 'CANCELLED',
+        },
+      };
+
+      await dispatch(
+        updateDeal({
+          stage: payload,
+          dealUUID: deal.uuid,
+        }),
+      ).unwrap();
+
       navigation.goBack();
     } catch (e) {
       console.error(e);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -129,11 +146,13 @@ export default function Negotiation({
       {/*{deal.asset.owner.uuid === user.uuid && (*/}
       <View style={tw`mb-2`}>
         <ThemeButton
+          loading={loading}
           label="Proceed next step"
           onPress={handleCompleteNegotiations}
         />
       </View>
       <ThemeButton
+        loading={loading}
         label="End Negotiations"
         onPress={handleEndDeal}
         type="clear"

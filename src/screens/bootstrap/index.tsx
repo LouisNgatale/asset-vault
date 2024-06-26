@@ -47,7 +47,7 @@ export default function BootstrapScreen(): React.JSX.Element {
     void setupApp();
   }, []);
 
-  if (isLoading) {
+  if (isLoading && !accessToken) {
     return (
       <View style={tw`flex flex-1 justify-center items-center`}>
         <Emblem />

@@ -87,8 +87,6 @@ export default function ContractDrafting({
           };
         }
 
-        console.log({ payload });
-
         await dispatch(
           uploadContract({
             ...payload,
@@ -128,6 +126,7 @@ export default function ContractDrafting({
 
         {selectedPdf?.name && <ThemeText>{selectedPdf.name}</ThemeText>}
         <ThemeButton
+          loading={loading}
           disabled={!fileDownloadUrl}
           onPress={handleSubmitContract(type)}
           label={buttonMessage || 'Upload Contract'}
@@ -210,6 +209,7 @@ export default function ContractDrafting({
 
       {deal.signedContract && (
         <ThemeButton
+          loading={loading}
           onPress={nextStep}
           style={tw`mt-2`}
           label={'Sign & Proceed'}

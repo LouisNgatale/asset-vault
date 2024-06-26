@@ -1,6 +1,5 @@
 import { createAppAsyncThunk } from '../../lib/hooks/useRedux.ts';
 import requestRetry, { ResponseError } from '../../lib/request';
-import Config from 'react-native-config';
 import {
   AppResponseError,
   LoginDto,
@@ -8,15 +7,14 @@ import {
   RegisterResponse,
   RegistrationDto,
 } from './types.ts';
-import { routes } from '../../constants/routes.ts';
+import { API_URL, routes } from '../../constants/routes.ts';
 import { saveTokenAndUserIdToStorage } from '../../utils/user.ts';
-
-const { API_URL } = Config;
 
 export const login = createAppAsyncThunk(
   'user/login',
   async (values: LoginDto, { rejectWithValue }) => {
     try {
+      console.log(`${API_URL}${routes.login}`);
       const response = await requestRetry<LoginResponse>(
         `${API_URL}${routes.login}`,
         {
@@ -25,6 +23,8 @@ export const login = createAppAsyncThunk(
           body: JSON.stringify(values),
         },
       );
+
+      console.log({ response });
 
       const loginResponse = response as LoginResponse;
 

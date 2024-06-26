@@ -11,6 +11,7 @@ export enum DealStage {
   CONTRACT_SIGNING = 'CONTRACT_SIGNING',
   PAYMENT = 'PAYMENT',
   COMPLETED = 'COMPLETED',
+  CANCELLED = 'CANCELLED',
 }
 
 export const DealStepsCounter = {
@@ -20,4 +21,5 @@ export const DealStepsCounter = {
   [DealStage.CONTRACT_SIGNING]: 3,
   [DealStage.PAYMENT]: 4,
   [DealStage.COMPLETED]: 5,
+  [DealStage.CANCELLED]: -1,
 };
