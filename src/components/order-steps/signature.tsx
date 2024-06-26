@@ -5,7 +5,7 @@ import tw from '../../lib/tailwind.ts';
 import ThemeButton from '../theme-button.tsx';
 import { Deal } from '../../types/asset.ts';
 
-export default function Signature({
+export default function SupervisorApproval({
   nextStep,
 }: {
   nextStep: () => void;

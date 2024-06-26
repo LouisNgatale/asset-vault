@@ -8,7 +8,7 @@ import tw from '../../lib/tailwind.ts';
 import Offer from '../../components/order-steps/offer.tsx';
 import Negotiation from '../../components/order-steps/negotiation.tsx';
 import ContractDrafting from '../../components/order-steps/contract-drafting.tsx';
-import Signature from '../../components/order-steps/signature.tsx';
+import SupervisorApproval from '../../components/order-steps/signature.tsx';
 import TitleIssuance from '../../components/order-steps/title-issuance.tsx';
 import { Deal } from '../../types/asset.ts';
 import { DealStage, DealStepsCounter } from '../../constants/asset.ts';
@@ -81,10 +81,10 @@ export default function ActiveDeal({ route }: { route: any }) {
     },
     {
       id: 3,
-      title: <Title>Signature</Title>,
+      title: <Title>Land Inspector</Title>,
       content: (
         <Content>
-          <Signature
+          <SupervisorApproval
             nextStep={handleNextStep}
             previousStep={handlePreviousStep}
             deal={deal}

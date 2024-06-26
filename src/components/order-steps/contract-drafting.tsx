@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Alert, TouchableOpacity, View } from 'react-native';
 import ThemeButton from '../theme-button.tsx';
-import { Deal } from '../../types/asset.ts';
+import { BookingStage, Deal } from '../../types/asset.ts';
 import { useAppDispatch, useAppSelector } from '../../lib/hooks/useRedux.ts';
 import ThemeText from '../theme-text.tsx';
 import tw from '../../lib/tailwind.ts';
@@ -11,9 +11,10 @@ import DocumentPicker, {
   DocumentPickerResponse,
 } from 'react-native-document-picker';
 import storage from '@react-native-firebase/storage';
-import { uploadContract } from '../../state/asset/actions.ts';
+import { updateDeal, uploadContract } from '../../state/asset/actions.ts';
 import screens from '../../constants/screens.ts';
 import { useNavigation } from '@react-navigation/native';
+import { DealStage } from '../../constants/asset.ts';
 
 export default function ContractDrafting({
   nextStep,
@@ -135,6 +136,32 @@ export default function ContractDrafting({
     );
   };
 
+  const handleInitiateLandInspection = async () => {
+    setLoading(true);
+    try {
+      const payload: BookingStage = {
+        name: DealStage.LAND_INSPECTOR,
+        date: new Date(),
+        metadata: {
+          status: 'COMPLETED',
+        },
+      };
+
+      await dispatch(
+        updateDeal({
+          stage: payload,
+          dealUUID: deal.uuid,
+        }),
+      ).unwrap();
+
+      nextStep();
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <View>
       {isNil(deal.originalContract) && (
@@ -207,6 +234,25 @@ export default function ContractDrafting({
         </View>
       )}
 
+      {deal.signedContract && (
+        <ThemeButton
+          onPress={() => {
+            navigation.navigate(screens.PdfViewer, {
+              uri: deal.signedContract,
+            });
+          }}
+          style={tw`mt-2`}
+          label={'Download signed contract'}
+          type="clear"
+          icon={
+            <>
+              <AntDesign name="pdffile1" size={20} style={tw`mr-2`} />
+            </>
+          }
+          disabled={!deal.originalContract}
+        />
+      )}
+
       {deal.asset.owner.uuid !== user.uuid && (
         <>
           <ThemeText style={tw`text-center mb-3`}>
@@ -218,7 +264,7 @@ export default function ContractDrafting({
       {deal.asset.owner.uuid === user.uuid && deal.signedContract && (
         <ThemeButton
           loading={loading}
-          onPress={nextStep}
+          onPress={handleInitiateLandInspection}
           style={tw`mt-2`}
           label={'Sign & Proceed'}
           disabled={!deal.originalContract}
