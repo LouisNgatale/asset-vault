@@ -7,7 +7,6 @@ import { Deal } from '../../types/asset.ts';
 
 export default function Signature({
   nextStep,
-  deal,
 }: {
   nextStep: () => void;
   previousStep: () => void;

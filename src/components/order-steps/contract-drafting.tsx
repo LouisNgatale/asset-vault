@@ -162,7 +162,7 @@ export default function ContractDrafting({
         </View>
       )}
 
-      {deal.originalContract && (
+      {deal.originalContract && isNil(deal.signedContract) && (
         <View style={tw`mb-3`}>
           <>
             {deal.asset.owner.uuid !== user.uuid && (
@@ -207,7 +207,15 @@ export default function ContractDrafting({
         </View>
       )}
 
-      {deal.signedContract && (
+      {deal.asset.owner.uuid !== user.uuid && (
+        <>
+          <ThemeText style={tw`text-center mb-3`}>
+            The seller hasn't approved the contract signing yet. Please come
+            back at a later time, once the seller has approved.
+          </ThemeText>
+        </>
+      )}
+      {deal.asset.owner.uuid === user.uuid && deal.signedContract && (
         <ThemeButton
           loading={loading}
           onPress={nextStep}
