@@ -14,19 +14,19 @@ export default function SupervisorApproval({
 }) {
   return (
     <View>
-      <View style={tw`flex flex-row items-center justify-between mb-3`}>
+      {/* <View style={tw`flex flex-row items-center justify-between mb-3`}>
         <View>
           <ThemeText style={tw`font-semibold`}>Seller Signature</ThemeText>
         </View>
         <View>
           <ThemeText style={tw`font-semibold`}>Buyer Signature</ThemeText>
         </View>
-      </View>
+      </View> */}
 
       <ThemeText style={tw`mb-3 text-justify`}>
-        Signature for both buyer and seller Digital signature must be signed per
-        agreement for both parties, this signature are encrypted make sure you
-        cross check before submiting
+        The contract & assets are still under land inspector approval. You will
+        be contacted for futher on site checkup and once the process is
+        completed, You'll move over to the payment stage.
       </ThemeText>
 
       <ThemeButton onPress={nextStep} label={'Proceed'} />

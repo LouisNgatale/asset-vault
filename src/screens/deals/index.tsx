@@ -15,12 +15,14 @@ import { fetchDeals } from '../../state/asset/actions.ts';
 import { Deal } from '../../types/asset.ts';
 import { toTSH } from '../../utils/currency.ts';
 import { isEmpty } from 'lodash';
+import { setDeal } from '../../state/asset/reducer.ts';
 
 export default function Deals({ navigation }: { navigation: any }) {
   const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
 
   const handleNavigateToActiveDeal = (deal: Deal) => () => {
+    dispatch(setDeal(deal));
     navigation.navigate(screens.ActiveDeal, {
       deal,
     });

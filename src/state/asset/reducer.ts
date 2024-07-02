@@ -1,23 +1,30 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchAssets, fetchDeals } from './actions.ts';
+import { confirmPayment, fetchAssets, fetchDeals } from './actions.ts';
 import { Asset, Deal } from '../../types/asset.ts';
 
 interface IState {
   loading: boolean;
   assets: Asset[];
   deals: Deal[];
+  deal?: Deal;
 }
 
 const defaultState: IState = {
   loading: false,
   assets: [],
   deals: [],
+  deal: undefined,
 };
 
 const assetSlice = createSlice({
   name: 'asset',
   initialState: defaultState,
-  reducers: {},
+  reducers: {
+    setDeal: (state, { payload }) => ({
+      ...state,
+      deal: payload,
+    }),
+  },
   extraReducers(builder) {
     builder.addCase(fetchAssets.fulfilled, (state, { payload }) => ({
       ...state,
@@ -27,7 +34,13 @@ const assetSlice = createSlice({
       ...state,
       deals: payload.data,
     }));
+
+    builder.addCase(confirmPayment.fulfilled, (state, { payload }) => ({
+      ...state,
+      deal: payload.data,
+    }));
   },
 });
 
+export const { setDeal } = assetSlice.actions;
 export default assetSlice.reducer;

@@ -25,6 +25,7 @@ export interface Deal {
   uuid: string;
   assetUUID: string;
   proposedPrice: string;
+  paidAmount?: string;
   originalContract: string;
   signedContract: string;
   asset: Asset;
