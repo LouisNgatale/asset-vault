@@ -6,8 +6,8 @@ export const routes = {
   fetchMarketplace: '/api/assets/market-place',
   assets: '/api/assets',
   fetchDeals: '/api/assets/deals',
+  transferAsset: '/api/assets',
   sendMessage: '/api/assets/deals/message',
 };
 
-export const API_URL =
-  'https://8e89-2a09-bac5-591b-1b9b-00-2c0-40.ngrok-free.app';
+export const API_URL = 'https://bc65-2a09-bac1-7480-00-2c0-35.ngrok-free.app';

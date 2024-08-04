@@ -61,7 +61,7 @@ export default function MarketPlace({ navigation }: any) {
 
   return (
     <SafeAreaView style={tw`flex-1 p-4`}>
-      <View style={tw`p-4`}>
+      <View style={tw`p-4 h-full`}>
         <SearchBar
           lightTheme={true}
           ref={searchRef}
@@ -76,7 +76,6 @@ export default function MarketPlace({ navigation }: any) {
 
         {!isEmpty(assets) && (
           <FlatList
-            contentContainerStyle={tw`h-full`}
             refreshControl={
               <RefreshControl
                 refreshing={loading}

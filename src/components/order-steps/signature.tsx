@@ -2,12 +2,9 @@ import React from 'react';
 import { View } from 'react-native';
 import ThemeText from '../theme-text.tsx';
 import tw from '../../lib/tailwind.ts';
-import ThemeButton from '../theme-button.tsx';
 import { Deal } from '../../types/asset.ts';
 
-export default function SupervisorApproval({
-  nextStep,
-}: {
+export default function SupervisorApproval({}: {
   nextStep: () => void;
   previousStep: () => void;
   deal: Deal;
@@ -29,7 +26,7 @@ export default function SupervisorApproval({
         completed, You'll move over to the payment stage.
       </ThemeText>
 
-      <ThemeButton onPress={nextStep} label={'Proceed'} />
+      {/* <ThemeButton onPress={nextStep} label={'Proceed'} /> */}
     </View>
   );
 }

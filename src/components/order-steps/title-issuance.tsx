@@ -9,7 +9,7 @@ import { useAppDispatch, useAppSelector } from '../../lib/hooks/useRedux.ts';
 import ThemeButton from '../theme-button.tsx';
 import currency from 'currency.js';
 import { toTSH } from '../../utils/currency.ts';
-import { confirmPayment } from '../../state/asset/actions.ts';
+import { confirmPayment, transferAsset } from '../../state/asset/actions.ts';
 
 export default function TitleIssuance({
   deal,
@@ -28,9 +28,21 @@ export default function TitleIssuance({
   const user = useAppSelector(({ user: { user } }) => user);
   const dispatch = useAppDispatch();
 
-  const handleTransferAsset = () => {};
+  const handleTransferAsset = async () => {
+    try {
+      await dispatch(transferAsset(deal.uuid)).unwrap();
+
+      return Alert.alert(
+        'Asset transfered successfully',
+        'The asset has been completely transfered to the new owner! The deal will now proceed to closing',
+      );
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   const savePaidAmount = async (values: any) => {
+    setLoading(true);
     try {
       await dispatch(
         confirmPayment({
@@ -45,6 +57,8 @@ export default function TitleIssuance({
       );
     } catch (e) {
       console.error(e);
+    } finally {
+      setLoading(false);
     }
   };
 

@@ -74,7 +74,6 @@ export default function HomeScreen({ navigation }: any) {
         </View>
         {!isEmpty(assets) && (
           <FlatList
-            contentContainerStyle={tw`h-full`}
             refreshControl={
               <RefreshControl
                 refreshing={loading}

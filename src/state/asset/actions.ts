@@ -173,7 +173,7 @@ export const uploadContract = createAppAsyncThunk(
 );
 
 export const confirmPayment = createAppAsyncThunk(
-  'assets/uploadContract',
+  'assets/confirmPayment',
   async (
     data: {
       dealUUID: string;
@@ -189,6 +189,23 @@ export const confirmPayment = createAppAsyncThunk(
       }>(`${API_URL}${routes.fetchDeals}/${dealUUID}/payment`, {
         method: 'PUT',
         body: JSON.stringify(payload),
+      });
+
+      return response;
+    } catch (e) {
+      return rejectWithValue(e as ResponseError<AppResponseError>);
+    }
+  },
+);
+
+export const transferAsset = createAppAsyncThunk(
+  'assets/transferAsset',
+  async (dealUUID: string, { rejectWithValue }) => {
+    try {
+      const response = await requestRetry<{
+        data: Deal;
+      }>(`${API_URL}${routes.transferAsset}/transfer-asset/${dealUUID}`, {
+        method: 'POST',
       });
 
       return response;

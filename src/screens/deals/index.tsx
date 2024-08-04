@@ -35,6 +35,7 @@ export default function Deals({ navigation }: { navigation: any }) {
   const fetchUserDeals = async () => {
     try {
       setLoading(true);
+      console.log('Fetching deals');
       await dispatch(fetchDeals()).unwrap();
     } catch (e) {
       console.error(e);
@@ -56,40 +57,43 @@ export default function Deals({ navigation }: { navigation: any }) {
         refreshControl={
           <RefreshControl refreshing={loading} onRefresh={fetchUserDeals} />
         }>
-        {deals?.map((deal) => (
-          <TouchableOpacity
-            onPress={handleNavigateToActiveDeal(deal)}
-            style={tw`w-full rounded-md bg-white mb-3 p-3 flex flex-row gap-3 items-center`}>
-            <View style={tw`h-[100px] w-[100px] bg-gray-200 rounded-[6px]`}>
-              <Image
-                source={{
-                  uri: deal.asset.images[0],
-                }}
-                style={{
-                  height: 100,
-                  justifyContent: 'center',
-                  borderRadius: 6,
-                  marginBottom: 6,
-                }}
-              />
-            </View>
-            <View>
-              <ThemeText>Buyer: {deal.buyer.fullName}</ThemeText>
-              <ThemeText type="subtext">
-                Location: {deal.asset.location.locationName}
-              </ThemeText>
-              <ThemeText type="subtext">
-                Seller: {deal.asset.owner.fullName}
-              </ThemeText>
-              <ThemeText type="subtext">
-                Original Price: {toTSH(deal.asset.valuation)}
-              </ThemeText>
-              <ThemeText type="subtext">
-                Offer: {toTSH(deal.proposedPrice)}
-              </ThemeText>
-            </View>
-          </TouchableOpacity>
-        ))}
+        {deals?.map((deal) => {
+          console.log({ asset: deal.asset });
+          return (
+            <TouchableOpacity
+              onPress={handleNavigateToActiveDeal(deal)}
+              style={tw`w-full rounded-md bg-white mb-3 p-3 flex flex-row gap-3 items-center`}>
+              <View style={tw`h-[100px] w-[100px] bg-gray-200 rounded-[6px]`}>
+                <Image
+                  source={{
+                    uri: deal.asset.images[0],
+                  }}
+                  style={{
+                    height: 100,
+                    justifyContent: 'center',
+                    borderRadius: 6,
+                    marginBottom: 6,
+                  }}
+                />
+              </View>
+              <View>
+                <ThemeText>Buyer: {deal.buyer.fullName}</ThemeText>
+                <ThemeText type="subtext">
+                  Location: {deal.asset.location.locationName}
+                </ThemeText>
+                <ThemeText type="subtext">
+                  Seller: {deal.asset.owner.fullName}
+                </ThemeText>
+                <ThemeText type="subtext">
+                  Original Price: {toTSH(deal.asset.valuation)}
+                </ThemeText>
+                <ThemeText type="subtext">
+                  Offer: {toTSH(deal.proposedPrice)}
+                </ThemeText>
+              </View>
+            </TouchableOpacity>
+          );
+        })}
 
         {isEmpty(deals) && (
           <>
