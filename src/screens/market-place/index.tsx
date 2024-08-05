@@ -1,6 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef, useState } from 'react';
-import { FlatList, RefreshControl, SafeAreaView, View } from 'react-native';
+import {
+  FlatList,
+  RefreshControl,
+  SafeAreaView,
+  ScrollView,
+  View,
+} from 'react-native';
 import tw from '../../lib/tailwind.ts';
 import { SearchBar } from '@rneui/themed';
 import Feather from 'react-native-vector-icons/Feather';
@@ -75,26 +81,23 @@ export default function MarketPlace({ navigation }: any) {
           value={search}
         />
 
-        {!isEmpty(assets) && (
-          <FlatList
-            refreshControl={
-              <RefreshControl
-                refreshing={loading}
-                onRefresh={fetchMarketplaceAssets}
-              />
-            }
-            data={assets}
-            renderItem={renderItemList}
-            style={tw`mt-4`}
-          />
-        )}
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={loading}
+              onRefresh={fetchMarketplaceAssets}
+            />
+          }>
+          {!isEmpty(assets) &&
+            assets.map((asset) => renderItemList({ item: asset }))}
 
-        {isEmpty(assets) && (
-          <ThemeText style={tw`text-center mt-3`}>
-            There's no assets listed at the marketplace at the moment, please
-            check in later.
-          </ThemeText>
-        )}
+          {isEmpty(assets) && (
+            <ThemeText style={tw`text-center mt-3`}>
+              There's no assets listed at the marketplace at the moment, please
+              check in later.
+            </ThemeText>
+          )}
+        </ScrollView>
       </View>
     </SafeAreaView>
   );

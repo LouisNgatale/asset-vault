@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import {
-  FlatList,
   RefreshControl,
   SafeAreaView,
   TouchableOpacity,
   View,
+  ScrollView,
 } from 'react-native';
 import tw from '../../lib/tailwind.ts';
 import ItemListCard from '../../components/item-list-card';
@@ -72,26 +72,24 @@ export default function HomeScreen({ navigation }: any) {
             <MaterialIcons name="logout" size={25} />
           </TouchableOpacity>
         </View>
-        {!isEmpty(assets) && (
-          <FlatList
-            refreshControl={
-              <RefreshControl
-                refreshing={loading}
-                onRefresh={fetchAllOwnerAssets}
-              />
-            }
-            data={assets}
-            renderItem={renderItemList}
-            style={tw`mt-4`}
-          />
-        )}
 
-        {isEmpty(assets) && (
-          <ThemeText style={tw`text-center mt-3`}>
-            There's no assets listed at the marketplace at the moment, please
-            check in later.
-          </ThemeText>
-        )}
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={loading}
+              onRefresh={fetchAllOwnerAssets}
+            />
+          }>
+          {!isEmpty(assets) &&
+            assets.map((asset) => renderItemList({ item: asset }))}
+
+          {isEmpty(assets) && (
+            <ThemeText style={tw`text-center mt-3`}>
+              There's no assets listed at the marketplace at the moment, please
+              check in later.
+            </ThemeText>
+          )}
+        </ScrollView>
       </View>
     </SafeAreaView>
   );
