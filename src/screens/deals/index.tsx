@@ -58,7 +58,6 @@ export default function Deals({ navigation }: { navigation: any }) {
           <RefreshControl refreshing={loading} onRefresh={fetchUserDeals} />
         }>
         {deals?.map((deal) => {
-          console.log({ asset: deal.asset });
           return (
             <TouchableOpacity
               onPress={handleNavigateToActiveDeal(deal)}

@@ -56,7 +56,6 @@ export default function PdfViewer({ route }: { route: any }) {
         .fetch('GET', params?.uri)
         .then((res) => {
           if (Platform.OS === 'ios') {
-            console.log({ configOptions });
             RNFetchBlob.fs.writeFile(configOptions.path, res.data, 'base64');
             RNFetchBlob.ios.previewDocument(configOptions.path);
           }

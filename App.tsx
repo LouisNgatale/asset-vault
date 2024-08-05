@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import screens from './src/constants/screens.ts';
 import BootstrapScreen from './src/screens/bootstrap';
@@ -11,6 +11,7 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import ActiveDeal from './src/screens/deals/active-deal.tsx';
 import PdfViewer from './src/components/pdf-viewer';
+import { startSocketConnection } from './src/utils/ably.ts';
 
 const RootStack = createNativeStackNavigator();
 
@@ -45,6 +46,10 @@ function App(): React.JSX.Element {
       },
     },
   ];
+
+  useEffect(() => {
+    startSocketConnection();
+  }, []);
 
   return (
     <SafeAreaProvider>

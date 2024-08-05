@@ -10,4 +10,7 @@ export const routes = {
   sendMessage: '/api/assets/deals/message',
 };
 
-export const API_URL = 'https://bc65-2a09-bac1-7480-00-2c0-35.ngrok-free.app';
+export const API_URL =
+  'https://bb2b-2a09-bac5-591a-1b9b-00-2c0-58.ngrok-free.app';
+export const ABLY_KEY =
+  'McZZWg.zLDjiw:Y4NmyIPbyWjXRWS2uqMSY9nbhZrlSs_vnJOrW5y9Ec4';

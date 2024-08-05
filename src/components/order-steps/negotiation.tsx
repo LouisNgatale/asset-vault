@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback, useEffect, useState } from 'react';
 import { GiftedChat, IMessage } from 'react-native-gifted-chat';
 import { Dimensions, View } from 'react-native';
@@ -8,6 +9,10 @@ import { useAppDispatch, useAppSelector } from '../../lib/hooks/useRedux.ts';
 import { sendMessage, updateDeal } from '../../state/asset/actions.ts';
 import { DealStage } from '../../constants/asset.ts';
 import { useNavigation } from '@react-navigation/native';
+import { realtime } from '../../utils/ably.ts';
+import { Types } from 'ably';
+import _ from 'lodash';
+import dayjs from 'dayjs';
 
 export default function Negotiation({
   nextStep,
@@ -21,6 +26,49 @@ export default function Negotiation({
   const dispatch = useAppDispatch();
   const [messages, setMessages] = useState<IMessage[]>([]);
   const [loading, setLoading] = useState(false);
+  const [negotiationChannel, setNegotiationChannel] = useState<
+    Types.RealtimeChannelCallbacks | undefined
+  >();
+
+  useEffect(() => {
+    const channel = realtime.channels.get(deal.uuid);
+
+    setNegotiationChannel(channel);
+  }, []);
+
+  useEffect(() => {
+    if (negotiationChannel) {
+      subscribeEvents();
+    }
+  }, [negotiationChannel]);
+
+  const subscribeEvents = () => {
+    console.log('Subscribing events');
+    negotiationChannel.subscribe('messages:new', onNewMessage, (error: any) => {
+      console.error(error);
+    });
+  };
+
+  const onNewMessage = (msg: any) => {
+    const senderUUID = msg.data.message[0].user.uuid;
+
+    console.log('New message');
+    if (user.uuid === senderUUID) {
+      return;
+    }
+
+    const formattedMessage = msg.data.message.map(mapMessage);
+
+    setMessages((previousMessages) => {
+      const newMessages = [...previousMessages, ...formattedMessage];
+
+      const uniqueMessages = _.uniqBy(newMessages, '_id').sort((a, b) => {
+        return dayjs(b.createdAt).diff(dayjs(a.createdAt));
+      });
+
+      return uniqueMessages;
+    });
+  };
 
   const mapMessage = (message: any) => ({
     _id: message.id,
@@ -36,8 +84,12 @@ export default function Negotiation({
   const user = useAppSelector(({ user: { user } }) => user);
 
   useEffect(() => {
-    setMessages(deal.messages.map(mapMessage));
-  }, []);
+    setMessages(
+      deal.messages.map(mapMessage).sort((a, b) => {
+        return dayjs(b.createdAt).diff(dayjs(a.createdAt));
+      }),
+    );
+  }, [deal.messages]);
 
   const handleSendMessages = async (messages: IMessage[]) => {
     try {
@@ -58,17 +110,22 @@ export default function Negotiation({
           dealUUID: deal.uuid,
         }),
       );
+
+      negotiationChannel?.publish('messages:new', {
+        message: payload,
+        dealUUID: deal.uuid,
+      });
     } catch (e) {
       console.error(e);
     }
   };
 
-  const onSend = useCallback((messages: IMessage[] = []) => {
+  const onSend = (messages: IMessage[] = []) => {
     setMessages((previousMessages) =>
       GiftedChat.append(previousMessages, messages),
     );
     handleSendMessages(messages);
-  }, []);
+  };
 
   const height = Dimensions.get('screen').height;
 

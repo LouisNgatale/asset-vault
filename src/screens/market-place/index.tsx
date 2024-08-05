@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef, useState } from 'react';
 import { FlatList, RefreshControl, SafeAreaView, View } from 'react-native';
 import tw from '../../lib/tailwind.ts';
@@ -41,7 +42,7 @@ export default function MarketPlace({ navigation }: any) {
   };
 
   useEffect(() => {
-    void fetchMarketplaceAssets();
+    fetchMarketplaceAssets();
   }, []);
 
   const fetchMarketplaceAssets = async () => {

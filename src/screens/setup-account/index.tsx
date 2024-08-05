@@ -39,10 +39,8 @@ export default function RegisterScreen({ navigation }: { navigation: any }) {
         fullName: values.fullName,
         email: values.email,
       };
-      console.log({ payload });
 
-      const response = await dispatch(register(payload)).unwrap();
-      console.log({ response });
+      await dispatch(register(payload)).unwrap();
 
       Alert.alert(
         'Account Created 🎉',

@@ -14,7 +14,6 @@ export const login = createAppAsyncThunk(
   'user/login',
   async (values: LoginDto, { rejectWithValue }) => {
     try {
-      console.log(`${API_URL}${routes.login}`);
       const response = await requestRetry<LoginResponse>(
         `${API_URL}${routes.login}`,
         {
@@ -23,8 +22,6 @@ export const login = createAppAsyncThunk(
           body: JSON.stringify(values),
         },
       );
-
-      console.log({ response });
 
       const loginResponse = response as LoginResponse;
 
